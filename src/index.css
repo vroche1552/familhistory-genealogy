@@ -5,33 +5,33 @@
 
 @layer base {
   :root {
-    --background: 0 0% 7%;
-    --foreground: 0 0% 88%;
+    --background: 220 20% 8%;
+    --foreground: 220 15% 90%;
 
-    --card: 240 6% 10%;
-    --card-foreground: 0 0% 88%;
+    --card: 220 15% 12%;
+    --card-foreground: 220 15% 90%;
 
-    --popover: 240 6% 10%;
-    --popover-foreground: 0 0% 88%;
+    --popover: 220 15% 12%;
+    --popover-foreground: 220 15% 90%;
 
-    --primary: 180 100% 50%;
-    --primary-foreground: 0 0% 7%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 220 20% 8%;
 
-    --secondary: 270 82% 76%;
-    --secondary-foreground: 0 0% 7%;
+    --secondary: 230 60% 70%;
+    --secondary-foreground: 220 20% 8%;
 
-    --muted: 240 4% 16%;
-    --muted-foreground: 240 5% 65%;
+    --muted: 220 10% 18%;
+    --muted-foreground: 220 10% 65%;
 
-    --accent: 240 4% 16%;
-    --accent-foreground: 0 0% 88%;
+    --accent: 220 10% 18%;
+    --accent-foreground: 220 15% 90%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 88%;
+    --destructive-foreground: 220 15% 90%;
 
-    --border: 240 4% 16%;
-    --input: 240 4% 16%;
-    --ring: 180 100% 50%;
+    --border: 220 10% 18%;
+    --input: 220 10% 18%;
+    --ring: 210 100% 50%;
 
     --radius: 0.5rem;
   }
@@ -68,7 +68,7 @@
   .cyber-button {
     @apply px-4 py-2 bg-cyber-dark border border-cyber-accent/30 hover:border-cyber-accent/80 
            text-cyber-foreground rounded transition-all duration-300 
-           hover:shadow-[0_0_10px_rgba(0,255,255,0.3)] hover:text-cyber-accent;
+           hover:shadow-[0_0_10px_rgba(0,100,255,0.3)] hover:text-cyber-accent;
   }
 
   .cyber-input {
@@ -78,11 +78,18 @@
   }
 
   .cyber-grid {
-    background-image: radial-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(0, 100, 255, 0.1) 1px, transparent 1px);
     background-size: 30px 30px;
   }
 
   .cyber-text-gradient {
-    @apply bg-gradient-to-r from-cyber-accent to-cyber-purple text-transparent bg-clip-text;
+    @apply bg-gradient-to-r from-cyber-accent to-cyber-blue text-transparent bg-clip-text;
+  }
+
+  .intelligence-pattern {
+    background-image: 
+      linear-gradient(rgba(0, 100, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 100, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
   }
 }

@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -24,10 +25,16 @@ import {
   Edit,
   Trees,
   Heart,
-  GraduationCap
+  GraduationCap,
+  Brain,
+  Globe
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import HistoricalEvents from '@/components/persona/HistoricalEvents';
+import FileDropZone from '@/components/persona/FileDropZone';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useToast } from '@/hooks/use-toast';
 
 // Mock data for demo purposes
 const personData = {
@@ -35,6 +42,7 @@ const personData = {
   name: 'John Doe',
   birthDate: 'April 12, 1950',
   birthPlace: 'Boston, Massachusetts',
+  country: 'United States',
   deathDate: '',
   deathPlace: '',
   occupation: 'Architect',
@@ -95,10 +103,23 @@ const TimelineIcon = ({ icon }: { icon: string }) => {
 const Persona = () => {
   const { id } = useParams<{ id: string }>();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [biography, setBiography] = useState(personData.biography);
   const person = personData; // In a real app, fetch data based on id
+  const { t, language } = useLanguage();
+  const { toast } = useToast();
+  
+  const handleAddToBio = (text: string) => {
+    setBiography(prev => prev + ' ' + text);
+    toast({
+      title: language === 'fr' ? 'Biographie mise à jour' : 'Biography Updated',
+      description: language === 'fr' 
+        ? 'Les informations ont été ajoutées à la biographie.' 
+        : 'Information has been added to the biography.'
+    });
+  };
   
   return (
-    <div className="min-h-screen bg-cyber-background text-cyber-foreground flex flex-col">
+    <div className="min-h-screen bg-cyber-background text-cyber-foreground flex flex-col intelligence-pattern">
       <Navbar />
       
       <main className="flex-grow py-8">
@@ -120,11 +141,11 @@ const Persona = () => {
             <div className="flex gap-3">
               <Link to={`/tree?focus=${id}`}>
                 <Button variant="outline" className="cyber-button">
-                  <Trees className="h-4 w-4 mr-2" /> View in Tree
+                  <Trees className="h-4 w-4 mr-2" /> {t('view_in_tree')}
                 </Button>
               </Link>
               <Button className="bg-cyber-accent hover:bg-cyber-accent/80 text-black">
-                <Edit className="h-4 w-4 mr-2" /> Edit Profile
+                <Edit className="h-4 w-4 mr-2" /> {t('edit')} {language === 'fr' ? 'Profil' : 'Profile'}
               </Button>
             </div>
           </div>
@@ -156,14 +177,21 @@ const Persona = () => {
                     {person.occupation && (
                       <div className="flex items-center">
                         <Briefcase className="h-4 w-4 text-cyber-accent mr-2" />
-                        <span>Occupation: {person.occupation}</span>
+                        <span>{t('occupation')}: {person.occupation}</span>
                       </div>
                     )}
                     
                     {person.education && (
                       <div className="flex items-center">
                         <GraduationCap className="h-4 w-4 text-cyber-accent mr-2" />
-                        <span>Education: {person.education}</span>
+                        <span>{t('education')}: {person.education}</span>
+                      </div>
+                    )}
+                    
+                    {person.country && (
+                      <div className="flex items-center">
+                        <Globe className="h-4 w-4 text-cyber-accent mr-2" />
+                        <span>{language === 'fr' ? 'Pays' : 'Country'}: {person.country}</span>
                       </div>
                     )}
                   </div>
@@ -174,14 +202,14 @@ const Persona = () => {
               <Card className="cyber-card mb-6">
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center">
-                    <Users className="h-4 w-4 text-cyber-accent mr-2" /> Family Relationships
+                    <Users className="h-4 w-4 text-cyber-accent mr-2" /> {language === 'fr' ? 'Relations Familiales' : 'Family Relationships'}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {/* Parents */}
                   {person.relations.parents.length > 0 && (
                     <div>
-                      <h4 className="text-sm text-muted-foreground mb-2">Parents</h4>
+                      <h4 className="text-sm text-muted-foreground mb-2">{t('parents')}</h4>
                       <div className="space-y-2">
                         {person.relations.parents.map(parent => (
                           <Link 
@@ -193,7 +221,7 @@ const Persona = () => {
                             <span>{parent.name}</span>
                             {(parent.birthYear || parent.deathYear) && (
                               <span className="text-xs text-muted-foreground ml-2">
-                                ({parent.birthYear} - {parent.deathYear || 'Present'})
+                                ({parent.birthYear} - {parent.deathYear || (language === 'fr' ? 'Présent' : 'Present')})
                               </span>
                             )}
                           </Link>
@@ -205,7 +233,7 @@ const Persona = () => {
                   {/* Partners */}
                   {person.relations.partners.length > 0 && (
                     <div>
-                      <h4 className="text-sm text-muted-foreground mb-2">Partners</h4>
+                      <h4 className="text-sm text-muted-foreground mb-2">{t('partners')}</h4>
                       <div className="space-y-2">
                         {person.relations.partners.map(partner => (
                           <Link 
@@ -217,7 +245,7 @@ const Persona = () => {
                             <span>{partner.name}</span>
                             {partner.birthYear && (
                               <span className="text-xs text-muted-foreground ml-2">
-                                (b. {partner.birthYear})
+                                ({language === 'fr' ? 'né(e) en' : 'b.'} {partner.birthYear})
                               </span>
                             )}
                           </Link>
@@ -229,7 +257,7 @@ const Persona = () => {
                   {/* Children */}
                   {person.relations.children.length > 0 && (
                     <div>
-                      <h4 className="text-sm text-muted-foreground mb-2">Children</h4>
+                      <h4 className="text-sm text-muted-foreground mb-2">{t('children')}</h4>
                       <div className="space-y-2">
                         {person.relations.children.map(child => (
                           <Link 
@@ -241,7 +269,7 @@ const Persona = () => {
                             <span>{child.name}</span>
                             {child.birthYear && (
                               <span className="text-xs text-muted-foreground ml-2">
-                                (b. {child.birthYear})
+                                ({language === 'fr' ? 'né(e) en' : 'b.'} {child.birthYear})
                               </span>
                             )}
                           </Link>
@@ -253,7 +281,7 @@ const Persona = () => {
                   {/* Siblings */}
                   {person.relations.siblings.length > 0 && (
                     <div>
-                      <h4 className="text-sm text-muted-foreground mb-2">Siblings</h4>
+                      <h4 className="text-sm text-muted-foreground mb-2">{t('siblings')}</h4>
                       <div className="space-y-2">
                         {person.relations.siblings.map(sibling => (
                           <Link 
@@ -265,7 +293,7 @@ const Persona = () => {
                             <span>{sibling.name}</span>
                             {sibling.birthYear && (
                               <span className="text-xs text-muted-foreground ml-2">
-                                (b. {sibling.birthYear})
+                                ({language === 'fr' ? 'né(e) en' : 'b.'} {sibling.birthYear})
                               </span>
                             )}
                           </Link>
@@ -281,29 +309,34 @@ const Persona = () => {
             <div className="col-span-1 lg:col-span-2">
               <Tabs defaultValue="biography" className="cyber-card">
                 <TabsList className="bg-cyber-dark w-full grid grid-cols-4 h-auto p-1">
-                  <TabsTrigger value="biography" className="py-2">Biography</TabsTrigger>
-                  <TabsTrigger value="timeline" className="py-2">Timeline</TabsTrigger>
-                  <TabsTrigger value="gallery" className="py-2">Gallery</TabsTrigger>
-                  <TabsTrigger value="documents" className="py-2">Documents</TabsTrigger>
+                  <TabsTrigger value="biography" className="py-2">{t('biography')}</TabsTrigger>
+                  <TabsTrigger value="timeline" className="py-2">{t('timeline')}</TabsTrigger>
+                  <TabsTrigger value="gallery" className="py-2">{t('gallery')}</TabsTrigger>
+                  <TabsTrigger value="documents" className="py-2">{t('documents')}</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="biography" className="p-6">
                   <div className="space-y-4">
-                    <p className="text-cyber-foreground leading-relaxed">{person.biography}</p>
+                    <div className="flex items-center">
+                      <Brain className="h-5 w-5 text-cyber-accent mr-2" />
+                      <h3 className="text-xl">{t('biography')}</h3>
+                    </div>
+                    
+                    <p className="text-cyber-foreground leading-relaxed">{biography}</p>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                       <Card className="cyber-card bg-cyber-dark/50">
                         <CardHeader className="py-3 px-4">
-                          <CardTitle className="text-sm font-medium text-muted-foreground">Birth Information</CardTitle>
+                          <CardTitle className="text-sm font-medium text-muted-foreground">{t('birth_info')}</CardTitle>
                         </CardHeader>
                         <CardContent className="py-2 px-4">
                           <div className="text-sm space-y-2">
                             <div className="flex">
-                              <span className="text-cyber-accent mr-2">Date:</span>
+                              <span className="text-cyber-accent mr-2">{t('date')}:</span>
                               <span>{person.birthDate}</span>
                             </div>
                             <div className="flex">
-                              <span className="text-cyber-accent mr-2">Place:</span>
+                              <span className="text-cyber-accent mr-2">{t('place')}:</span>
                               <span>{person.birthPlace}</span>
                             </div>
                           </div>
@@ -313,16 +346,16 @@ const Persona = () => {
                       {person.deathDate && (
                         <Card className="cyber-card bg-cyber-dark/50">
                           <CardHeader className="py-3 px-4">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">Death Information</CardTitle>
+                            <CardTitle className="text-sm font-medium text-muted-foreground">{t('death_info')}</CardTitle>
                           </CardHeader>
                           <CardContent className="py-2 px-4">
                             <div className="text-sm space-y-2">
                               <div className="flex">
-                                <span className="text-cyber-accent mr-2">Date:</span>
+                                <span className="text-cyber-accent mr-2">{t('date')}:</span>
                                 <span>{person.deathDate}</span>
                               </div>
                               <div className="flex">
-                                <span className="text-cyber-accent mr-2">Place:</span>
+                                <span className="text-cyber-accent mr-2">{t('place')}:</span>
                                 <span>{person.deathPlace}</span>
                               </div>
                             </div>
@@ -330,10 +363,21 @@ const Persona = () => {
                         </Card>
                       )}
                     </div>
+                    
+                    <HistoricalEvents 
+                      birthYear={person.birthDate.split(',')[1]?.trim().substring(0, 4) || '1950'} 
+                      deathYear={person.deathDate ? person.deathDate.split(',')[1]?.trim().substring(0, 4) : ''} 
+                      country={person.country || 'United States'}
+                    />
                   </div>
                 </TabsContent>
                 
                 <TabsContent value="timeline" className="p-6">
+                  <div className="flex items-center mb-4">
+                    <Calendar className="h-5 w-5 text-cyber-accent mr-2" />
+                    <h3 className="text-xl">{t('timeline')}</h3>
+                  </div>
+                  
                   <div className="relative">
                     {/* Timeline line */}
                     <div className="absolute top-0 bottom-0 left-[18px] w-[2px] bg-cyber-border z-0"></div>
@@ -358,6 +402,11 @@ const Persona = () => {
                 </TabsContent>
                 
                 <TabsContent value="gallery" className="p-6">
+                  <div className="flex items-center mb-4">
+                    <Image className="h-5 w-5 text-cyber-accent mr-2" />
+                    <h3 className="text-xl">{t('gallery')}</h3>
+                  </div>
+                  
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {person.images.map((image, index) => (
                       <div 
@@ -372,7 +421,7 @@ const Persona = () => {
                             className="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                           <div className="absolute inset-0 bg-cyber-dark/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <div className="text-cyber-accent">View</div>
+                            <div className="text-cyber-accent">{t('view')}</div>
                           </div>
                         </div>
                       </div>
@@ -380,14 +429,21 @@ const Persona = () => {
                     <div className="cyber-card border border-dashed border-cyber-border flex items-center justify-center h-40 cursor-pointer hover:border-cyber-accent/50 transition-colors">
                       <div className="text-center">
                         <Image className="h-8 w-8 text-cyber-accent/50 mx-auto mb-2" />
-                        <span className="text-muted-foreground">Add Photo</span>
+                        <span className="text-muted-foreground">{language === 'fr' ? 'Ajouter une photo' : 'Add Photo'}</span>
                       </div>
                     </div>
                   </div>
                 </TabsContent>
                 
                 <TabsContent value="documents" className="p-6">
-                  <div className="space-y-4">
+                  <FileDropZone onAddToBio={handleAddToBio} />
+                  
+                  <div className="space-y-4 mt-6">
+                    <div className="flex items-center mb-2">
+                      <FileText className="h-5 w-5 text-cyber-accent mr-2" />
+                      <h3 className="text-xl">{t('documents')}</h3>
+                    </div>
+                    
                     {person.documents.map((doc, index) => (
                       <div key={index} className="cyber-card p-4 flex items-center">
                         <div className="mr-4 p-2 bg-cyber-dark rounded-md">
@@ -400,17 +456,10 @@ const Persona = () => {
                           </div>
                         </div>
                         <Button variant="outline" size="sm" className="cyber-button">
-                          View
+                          {t('view')}
                         </Button>
                       </div>
                     ))}
-                    
-                    <div className="cyber-card border border-dashed border-cyber-border p-4 flex items-center justify-center cursor-pointer hover:border-cyber-accent/50 transition-colors">
-                      <div className="text-center py-4">
-                        <FileText className="h-8 w-8 text-cyber-accent/50 mx-auto mb-2" />
-                        <span className="text-muted-foreground">Upload Document</span>
-                      </div>
-                    </div>
                   </div>
                 </TabsContent>
               </Tabs>

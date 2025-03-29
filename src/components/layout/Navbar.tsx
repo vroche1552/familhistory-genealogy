@@ -1,13 +1,17 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Trees, User, Search } from 'lucide-react';
+import { Menu, X, Trees, User, Search, Globe, Brain } from 'lucide-react';
 import AuthModal from '../auth/AuthModal';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authType, setAuthType] = useState<'login' | 'signup'>('login');
+  const { t } = useLanguage();
 
   const openAuthModal = (type: 'login' | 'signup') => {
     setAuthType(type);
@@ -20,27 +24,28 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <Trees className="h-8 w-8 mr-2 text-cyber-accent" />
-              <span className="text-xl font-bold cyber-text-gradient">CyberFamily</span>
+              <Brain className="h-8 w-8 mr-2 text-cyber-accent" />
+              <span className="text-xl font-bold cyber-text-gradient">{t('app_name')}</span>
             </Link>
           </div>
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-4">
               <Link to="/" className="text-cyber-foreground hover:text-cyber-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Home
+                {t('home')}
               </Link>
               <Link to="/features" className="text-cyber-foreground hover:text-cyber-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Features
+                {t('features')}
               </Link>
               <Link to="/about" className="text-cyber-foreground hover:text-cyber-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                About
+                {t('about')}
               </Link>
+              <LanguageSwitcher />
               <Button variant="outline" className="cyber-button" onClick={() => openAuthModal('login')}>
-                Login
+                {t('login')}
               </Button>
               <Button className="bg-cyber-accent hover:bg-cyber-accent/80 text-black" onClick={() => openAuthModal('signup')}>
-                Sign Up
+                {t('signup')}
               </Button>
             </div>
           </div>
@@ -60,19 +65,22 @@ const Navbar = () => {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-cyber-dark/90 backdrop-blur-md animate-fade-in">
             <Link to="/" className="text-cyber-foreground hover:text-cyber-accent block px-3 py-2 rounded-md text-base font-medium">
-              Home
+              {t('home')}
             </Link>
             <Link to="/features" className="text-cyber-foreground hover:text-cyber-accent block px-3 py-2 rounded-md text-base font-medium">
-              Features
+              {t('features')}
             </Link>
             <Link to="/about" className="text-cyber-foreground hover:text-cyber-accent block px-3 py-2 rounded-md text-base font-medium">
-              About
+              {t('about')}
             </Link>
+            <div className="px-3 py-2">
+              <LanguageSwitcher />
+            </div>
             <Button variant="outline" className="w-full mt-2 cyber-button" onClick={() => openAuthModal('login')}>
-              Login
+              {t('login')}
             </Button>
             <Button className="w-full mt-2 bg-cyber-accent hover:bg-cyber-accent/80 text-black" onClick={() => openAuthModal('signup')}>
-              Sign Up
+              {t('signup')}
             </Button>
           </div>
         </div>

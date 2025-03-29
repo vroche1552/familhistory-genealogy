@@ -64,13 +64,14 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				cyber: {
-					background: '#121212',
-					foreground: '#E0E0E0',
-					accent: '#00FFFF',
-					purple: '#9b87f5',
-					dark: '#1A1F2C',
-					card: '#222222',
-					border: '#333333',
+					background: '#111827',
+					foreground: '#E2E8F0',
+					accent: '#0070F3',
+					blue: '#3B82F6',
+					purple: '#8B5CF6',
+					dark: '#1E293B',
+					card: '#1E293B',
+					border: '#374151',
 				}
 			},
 			borderRadius: {
@@ -89,18 +90,18 @@ export default {
 				},
 				'glow': {
 					'0%, 100%': { 
-						textShadow: '0 0 5px rgba(0, 255, 255, 0.5), 0 0 10px rgba(0, 255, 255, 0.3)' 
+						textShadow: '0 0 5px rgba(0, 100, 255, 0.5), 0 0 10px rgba(0, 100, 255, 0.3)' 
 					},
 					'50%': { 
-						textShadow: '0 0 15px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.5)' 
+						textShadow: '0 0 15px rgba(0, 100, 255, 0.8), 0 0 20px rgba(0, 100, 255, 0.5)' 
 					},
 				},
 				'pulse-border': {
 					'0%, 100%': { 
-						borderColor: 'rgba(0, 255, 255, 0.3)'
+						borderColor: 'rgba(0, 100, 255, 0.3)'
 					},
 					'50%': { 
-						borderColor: 'rgba(0, 255, 255, 0.8)'
+						borderColor: 'rgba(0, 100, 255, 0.8)'
 					},
 				},
 				'fade-in': {
