@@ -1,6 +1,7 @@
+
 const translations = {
   // Common
-  "app_name": "IntelliFamille",
+  "app_name": "Familhistory",
   "login": "Connexion",
   "signup": "S'inscrire",
   "logout": "Déconnexion",
@@ -58,6 +59,8 @@ const translations = {
   "ocr_analysis": "Analyse OCR",
   "add_to_bio": "Ajouter à la biographie",
   "suggested_takeaways": "Suggestions à retenir",
+  "age": "Âge",
+  "years_old": "ans",
   
   // Tree page
   "family_tree_builder": "Constructeur d'arbre généalogique",

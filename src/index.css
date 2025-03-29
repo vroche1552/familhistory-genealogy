@@ -5,33 +5,33 @@
 
 @layer base {
   :root {
-    --background: 220 20% 8%;
-    --foreground: 220 15% 90%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
-    --card: 220 15% 12%;
-    --card-foreground: 220 15% 90%;
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 220 15% 12%;
-    --popover-foreground: 220 15% 90%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 210 100% 50%;
-    --primary-foreground: 220 20% 8%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 230 60% 70%;
-    --secondary-foreground: 220 20% 8%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 10% 18%;
-    --muted-foreground: 220 10% 65%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 220 10% 18%;
-    --accent-foreground: 220 15% 90%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 220 15% 90%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 10% 18%;
-    --input: 220 10% 18%;
-    --ring: 210 100% 50%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 100%;
 
     --radius: 0.5rem;
   }
@@ -43,7 +43,7 @@
   }
 
   body {
-    @apply bg-cyber-background text-cyber-foreground;
+    @apply bg-black text-white;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
   }
 
@@ -54,11 +54,11 @@
 
 @layer utilities {
   .cyber-border {
-    @apply border border-cyber-border/30 hover:border-cyber-accent/50 transition-colors duration-300;
+    @apply border border-gray-800 hover:border-white/50 transition-colors duration-300;
   }
 
   .cyber-card {
-    @apply bg-cyber-card rounded-md cyber-border shadow-lg backdrop-blur-sm;
+    @apply bg-black rounded-md border border-gray-800 shadow-lg backdrop-blur-sm;
   }
 
   .cyber-glow {
@@ -66,30 +66,30 @@
   }
 
   .cyber-button {
-    @apply px-4 py-2 bg-cyber-dark border border-cyber-accent/30 hover:border-cyber-accent/80 
-           text-cyber-foreground rounded transition-all duration-300 
-           hover:shadow-[0_0_10px_rgba(0,100,255,0.3)] hover:text-cyber-accent;
+    @apply px-4 py-2 bg-black border border-gray-800 hover:border-white 
+           text-white rounded transition-all duration-300 
+           hover:shadow-[0_0_10px_rgba(255,255,255,0.3)];
   }
 
   .cyber-input {
-    @apply bg-cyber-dark border border-cyber-border rounded py-2 px-3 
-           focus:border-cyber-accent/70 focus:outline-none focus:ring-1 focus:ring-cyber-accent/30 
+    @apply bg-black border border-gray-800 rounded py-2 px-3 
+           focus:border-white/70 focus:outline-none focus:ring-1 focus:ring-white/30 
            transition-all duration-300;
   }
 
   .cyber-grid {
-    background-image: radial-gradient(rgba(0, 100, 255, 0.1) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
     background-size: 30px 30px;
   }
 
   .cyber-text-gradient {
-    @apply bg-gradient-to-r from-cyber-accent to-cyber-blue text-transparent bg-clip-text;
+    @apply text-white;
   }
 
   .intelligence-pattern {
     background-image: 
-      linear-gradient(rgba(0, 100, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 100, 255, 0.03) 1px, transparent 1px);
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 20px 20px;
   }
 }
