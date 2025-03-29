@@ -1,4 +1,3 @@
-
 const translations = {
   // Common
   "app_name": "IntelliFamily",
@@ -13,6 +12,7 @@ const translations = {
   "search": "Search",
   "view": "View",
   "language": "Language",
+  "add_all": "Add All",
   
   // Navigation
   "home": "Home",
