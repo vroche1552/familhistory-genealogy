@@ -1,7 +1,6 @@
-
 import { 
   Users, 
-  Tree, 
+  Trees, 
   FileText, 
   Shield, 
   Search, 
@@ -34,7 +33,7 @@ const Features = () => {
       description: "Create secure accounts and personalized profiles to manage your family history in one place."
     },
     {
-      icon: <Tree className="h-6 w-6 text-cyber-accent" />,
+      icon: <Trees className="h-6 w-6 text-cyber-accent" />,
       title: "Interactive Tree Builder",
       description: "Build your family tree with our intuitive drag-and-drop interface with support for complex relationships."
     },

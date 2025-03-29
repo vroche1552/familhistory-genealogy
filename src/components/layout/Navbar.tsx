@@ -1,8 +1,7 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Tree, User, Search } from 'lucide-react';
+import { Menu, X, Trees, User, Search } from 'lucide-react';
 import AuthModal from '../auth/AuthModal';
 
 const Navbar = () => {
@@ -21,7 +20,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <Tree className="h-8 w-8 mr-2 text-cyber-accent" />
+              <Trees className="h-8 w-8 mr-2 text-cyber-accent" />
               <span className="text-xl font-bold cyber-text-gradient">CyberFamily</span>
             </Link>
           </div>

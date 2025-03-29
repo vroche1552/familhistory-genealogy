@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -23,7 +22,7 @@ import {
   User, 
   Users,
   Edit,
-  Tree,
+  Trees,
   Heart,
   GraduationCap
 } from 'lucide-react';
@@ -121,7 +120,7 @@ const Persona = () => {
             <div className="flex gap-3">
               <Link to={`/tree?focus=${id}`}>
                 <Button variant="outline" className="cyber-button">
-                  <Tree className="h-4 w-4 mr-2" /> View in Tree
+                  <Trees className="h-4 w-4 mr-2" /> View in Tree
                 </Button>
               </Link>
               <Button className="bg-cyber-accent hover:bg-cyber-accent/80 text-black">

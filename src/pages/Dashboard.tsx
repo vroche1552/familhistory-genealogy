@@ -1,9 +1,8 @@
-
 import { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { PlusCircle, Tree, Calendar, Users, FileText, Settings } from 'lucide-react';
+import { PlusCircle, Trees, Calendar, Users, FileText, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PersonaCard from '@/components/persona/PersonaCard';
 
@@ -60,7 +59,7 @@ const Dashboard = () => {
             <div className="flex gap-4">
               <Link to="/tree">
                 <Button className="cyber-button flex items-center">
-                  <Tree className="mr-2 h-4 w-4" /> View Family Tree
+                  <Trees className="mr-2 h-4 w-4" /> View Family Tree
                 </Button>
               </Link>
               <Button className="bg-cyber-accent hover:bg-cyber-accent/80 text-black font-medium flex items-center">
@@ -148,7 +147,7 @@ const Dashboard = () => {
               <Link to="/tree">
                 <Card className="cyber-card hover:shadow-[0_0_10px_rgba(0,255,255,0.15)] transition-shadow">
                   <CardContent className="p-6 flex flex-col items-center text-center">
-                    <Tree className="h-10 w-10 text-cyber-accent mb-4" />
+                    <Trees className="h-10 w-10 text-cyber-accent mb-4" />
                     <h3 className="font-medium mb-2">Manage Family Tree</h3>
                     <p className="text-sm text-muted-foreground">
                       Edit connections and relationships

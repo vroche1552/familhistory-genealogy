@@ -7,7 +7,8 @@ import {
   Upload, 
   Share2, 
   PlusCircle,
-  Save
+  Save,
+  Trees
 } from 'lucide-react';
 
 const Tree = () => {

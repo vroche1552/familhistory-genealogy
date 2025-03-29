@@ -1,9 +1,8 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import AuthModal from '../auth/AuthModal';
-import { Tree } from 'lucide-react';
+import { Trees } from 'lucide-react';
 
 const Hero = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -24,7 +23,7 @@ const Hero = () => {
 
       <div className="relative z-10 container mx-auto px-4 flex flex-col items-center text-center">
         <div className="inline-flex items-center justify-center mb-6">
-          <Tree className="h-12 w-12 mr-2 text-cyber-accent" />
+          <Trees className="h-12 w-12 mr-2 text-cyber-accent" />
           <h1 className="text-4xl md:text-6xl font-bold cyber-text-gradient">
             CyberFamily
           </h1>
