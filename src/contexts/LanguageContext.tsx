@@ -15,10 +15,16 @@ interface LanguageContextType {
   t: (key: keyof Translations) => string;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+// Create context with a meaningful default value to avoid null check issues
+const defaultContextValue: LanguageContextType = {
+  language: 'en',
+  setLanguage: () => {},
+  t: (key) => String(key)
+};
+
+const LanguageContext = createContext<LanguageContextType>(defaultContextValue);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Initialize with a default value to prevent null access
   const [language, setLanguage] = useState<Language>('en');
   
   // Initialize language from localStorage or browser preferences
@@ -57,8 +63,14 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return translations[key] || key;
   };
 
+  const value = {
+    language,
+    setLanguage,
+    t
+  };
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
@@ -66,7 +78,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
 export function useLanguage() {
   const context = useContext(LanguageContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;

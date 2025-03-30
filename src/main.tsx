@@ -8,7 +8,12 @@ import './index.css';
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error('Root element not found');
 
-ReactDOM.createRoot(rootElement).render(<App />);
+// Wrap the App in StrictMode here at the root level
+ReactDOM.createRoot(rootElement).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 
 // Register service worker for PWA support
 if ('serviceWorker' in navigator) {
