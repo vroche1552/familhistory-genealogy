@@ -1,5 +1,5 @@
 
-import React from 'react';
+import * as React from 'react';
 
 type Language = 'en' | 'fr';
 
@@ -24,7 +24,11 @@ const defaultContextValue: LanguageContextType = {
 
 export const LanguageContext = React.createContext<LanguageContextType>(defaultContextValue);
 
-export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
+interface LanguageProviderProps {
+  children: React.ReactNode;
+}
+
+export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguage] = React.useState<Language>('en');
   
   // Initialize language from localStorage or browser preferences
