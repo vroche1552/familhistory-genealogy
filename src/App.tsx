@@ -10,6 +10,10 @@ import Dashboard from "./pages/Dashboard";
 import Tree from "./pages/Tree";
 import Persona from "./pages/Persona";
 import NotFound from "./pages/NotFound";
+import React from 'react';
+
+// Check if React is properly loaded
+console.log('React version:', React.version);
 
 const queryClient = new QueryClient();
 
