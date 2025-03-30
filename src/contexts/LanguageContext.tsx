@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import * as React from 'react';
 
 type Language = 'en' | 'fr';
 
@@ -22,13 +22,13 @@ const defaultContextValue: LanguageContextType = {
   t: (key) => String(key)
 };
 
-export const LanguageContext = createContext<LanguageContextType>(defaultContextValue);
+export const LanguageContext = React.createContext<LanguageContextType>(defaultContextValue);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = React.useState<Language>('en');
   
   // Initialize language from localStorage or browser preferences
-  useEffect(() => {
+  React.useEffect(() => {
     try {
       const savedLanguage = localStorage.getItem('language') as Language;
       if (savedLanguage && ['en', 'fr'].includes(savedLanguage)) {
@@ -47,7 +47,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, []);
 
   // Save to localStorage when language changes
-  useEffect(() => {
+  React.useEffect(() => {
     try {
       localStorage.setItem('language', language);
     } catch (error) {
@@ -77,7 +77,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 };
 
 export function useLanguage() {
-  const context = useContext(LanguageContext);
+  const context = React.useContext(LanguageContext);
   if (!context) {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
