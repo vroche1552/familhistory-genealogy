@@ -22,9 +22,9 @@ const defaultContextValue: LanguageContextType = {
   t: (key) => String(key)
 };
 
-const LanguageContext = createContext<LanguageContextType>(defaultContextValue);
+export const LanguageContext = createContext<LanguageContextType>(defaultContextValue);
 
-export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
+export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('en');
   
   // Initialize language from localStorage or browser preferences
