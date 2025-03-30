@@ -63,7 +63,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return translations[key] || String(key);
   };
 
-  const value = {
+  const value: LanguageContextType = {
     language,
     setLanguage,
     t
