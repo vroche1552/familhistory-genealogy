@@ -14,6 +14,7 @@ const translations = {
   "view": "View",
   "language": "Language",
   "add_all": "Add All",
+  "get_started": "Get Started",
   
   // Navigation
   "home": "Home",
