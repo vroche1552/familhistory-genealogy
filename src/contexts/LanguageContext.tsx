@@ -17,28 +17,36 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  // Use a simple initialization to avoid complex logic during the initial render
+export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Simple initialization without complex logic
   const [language, setLanguage] = useState<Language>('en');
   
-  // Initialize language from localStorage or browser preferences in an effect
+  // Initialize language from localStorage or browser preferences
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('language') as Language;
-    if (savedLanguage && ['en', 'fr'].includes(savedLanguage)) {
-      setLanguage(savedLanguage);
-      return;
-    }
-    
-    // Check browser language
-    const browserLang = navigator.language.split('-')[0];
-    if (browserLang === 'fr') {
-      setLanguage('fr');
+    try {
+      const savedLanguage = localStorage.getItem('language') as Language;
+      if (savedLanguage && ['en', 'fr'].includes(savedLanguage)) {
+        setLanguage(savedLanguage);
+        return;
+      }
+      
+      // Check browser language
+      const browserLang = navigator.language.split('-')[0];
+      if (browserLang === 'fr') {
+        setLanguage('fr');
+      }
+    } catch (error) {
+      console.error('Error initializing language:', error);
     }
   }, []);
 
   // Save to localStorage when language changes
   useEffect(() => {
-    localStorage.setItem('language', language);
+    try {
+      localStorage.setItem('language', language);
+    } catch (error) {
+      console.error('Error saving language preference:', error);
+    }
   }, [language]);
 
   // Get translations based on current language

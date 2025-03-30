@@ -4,12 +4,11 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-// Create root and render app
+// Create root and render app with proper React import
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error('Root element not found');
-const root = ReactDOM.createRoot(rootElement);
 
-root.render(
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
