@@ -35,7 +35,7 @@ const Tree = () => {
               <div className="mr-2">
                 <Input 
                   type="text" 
-                  placeholder={t('search_person')} 
+                  placeholder={t('search')} 
                   className="h-9 bg-white border-gray-300 text-sm w-40 md:w-auto"
                 />
               </div>
@@ -65,7 +65,7 @@ const Tree = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          {t('tree_instructions')}
+          {t('family_tree_instructions')}
         </motion.div>
         
         {/* Tree Visualization */}

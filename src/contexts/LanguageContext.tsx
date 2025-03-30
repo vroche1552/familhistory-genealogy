@@ -17,7 +17,7 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
+export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>(() => {
     // Try to get from localStorage or use browser language
     const savedLanguage = localStorage.getItem('language') as Language;
@@ -48,7 +48,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       {children}
     </LanguageContext.Provider>
   );
-}
+};
 
 export function useLanguage() {
   const context = useContext(LanguageContext);
