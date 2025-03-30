@@ -18,7 +18,7 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Simple initialization without complex logic
+  // Initialize with a default value to prevent null access
   const [language, setLanguage] = useState<Language>('en');
   
   // Initialize language from localStorage or browser preferences
