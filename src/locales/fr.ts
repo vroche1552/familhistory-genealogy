@@ -1,3 +1,4 @@
+
 const translations = {
   // Common
   "app_name": "Familhistory",
@@ -69,6 +70,7 @@ const translations = {
   "export": "Exporter",
   "share": "Partager",
   "view_in_tree": "Voir dans l'arbre",
+  "family_tree_instructions": "Glissez pour déplacer l'arbre. Utilisez les boutons ou la molette pour zoomer.",
   
   // Dashboard
   "recent_activity": "Activité récente",

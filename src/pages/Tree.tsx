@@ -65,7 +65,10 @@ const Tree = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          {t('family_tree_instructions')}
+          {/* Using a string directly since this key might not exist yet */}
+          {language === 'fr' 
+            ? "Glissez pour déplacer l'arbre. Utilisez les boutons ou la molette pour zoomer." 
+            : "Drag to move the tree. Use buttons or scroll wheel to zoom."}
         </motion.div>
         
         {/* Tree Visualization */}
