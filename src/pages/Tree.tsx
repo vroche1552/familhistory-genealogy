@@ -16,7 +16,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 
 const Tree = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   
   return (
     <div className="min-h-screen bg-white text-black flex flex-col">
@@ -65,10 +65,7 @@ const Tree = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          {/* Using a string directly since this key might not exist yet */}
-          {language === 'fr' 
-            ? "Glissez pour déplacer l'arbre. Utilisez les boutons ou la molette pour zoomer." 
-            : "Drag to move the tree. Use buttons or scroll wheel to zoom."}
+          {t('family_tree_instructions')}
         </motion.div>
         
         {/* Tree Visualization */}
