@@ -10,18 +10,20 @@ import { Toaster } from "@/components/ui/toaster";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const App = () => (
-  <LanguageProvider>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/tree" element={<Tree />} />
-        <Route path="/persona/:id" element={<Persona />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
-    <Toaster />
-  </LanguageProvider>
+  <React.StrictMode>
+    <LanguageProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/tree" element={<Tree />} />
+          <Route path="/persona/:id" element={<Persona />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+      <Toaster />
+    </LanguageProvider>
+  </React.StrictMode>
 );
 
 export default App;

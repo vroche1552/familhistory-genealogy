@@ -12,6 +12,10 @@ const rootElement = document.getElementById('root') || (() => {
   return root;
 })();
 
+// Define React in window to ensure global availability
+// This can help with certain dependency issues
+window.React = React;
+
 // Initialize React immediately
 const root = ReactDOM.createRoot(rootElement);
 
