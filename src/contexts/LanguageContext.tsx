@@ -18,17 +18,25 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  // Safely determine the initial language
   const [language, setLanguage] = useState<Language>(() => {
-    // Try to get from localStorage or use browser language
+    // Make sure we're in a browser environment before accessing localStorage/navigator
     if (typeof window !== 'undefined') {
-      const savedLanguage = localStorage.getItem('language') as Language;
-      if (savedLanguage && ['en', 'fr'].includes(savedLanguage)) {
-        return savedLanguage;
+      try {
+        // Try to get from localStorage
+        const savedLanguage = localStorage.getItem('language') as Language;
+        if (savedLanguage && ['en', 'fr'].includes(savedLanguage)) {
+          return savedLanguage;
+        }
+        
+        // Check browser language
+        if (navigator && navigator.language) {
+          const browserLang = navigator.language.split('-')[0];
+          return browserLang === 'fr' ? 'fr' : 'en';
+        }
+      } catch (error) {
+        console.error('Error determining language:', error);
       }
-      
-      // Check browser language
-      const browserLang = navigator.language.split('-')[0];
-      return browserLang === 'fr' ? 'fr' : 'en';
     }
     return 'en'; // Default fallback
   });
@@ -36,7 +44,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   // Save to localStorage when language changes
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('language', language);
+      try {
+        localStorage.setItem('language', language);
+      } catch (error) {
+        console.error('Error saving language to localStorage:', error);
+      }
     }
   }, [language]);
 
