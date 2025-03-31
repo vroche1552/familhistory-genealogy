@@ -85,15 +85,13 @@ const DocumentationRanking: React.FC<DocumentationRankingProps> = ({ people: ini
                     {index + 1}
                   </div>
                   
-                  <Avatar className="h-8 w-8 mr-3">
+                  <div className="h-8 w-8 mr-3 rounded-full bg-cyber-dark flex items-center justify-center overflow-hidden">
                     {person.imageUrl ? (
-                      <AvatarImage src={person.imageUrl} alt={person.name} />
+                      <img src={person.imageUrl} alt={person.name} className="w-full h-full object-cover" />
                     ) : (
-                      <AvatarFallback className="bg-cyber-dark text-muted-foreground">
-                        <User className="h-4 w-4" />
-                      </AvatarFallback>
+                      <User className="h-4 w-4 text-muted-foreground" />
                     )}
-                  </Avatar>
+                  </div>
                   
                   <div className="flex-grow">
                     <div className="font-medium">{person.name}</div>
