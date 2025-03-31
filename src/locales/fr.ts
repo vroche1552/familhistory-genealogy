@@ -1,4 +1,3 @@
-
 const translations = {
   // Common
   "app_name": "Familhistory",
@@ -14,6 +13,7 @@ const translations = {
   "view": "Voir",
   "language": "Langue",
   "add_all": "Tout ajouter",
+  "get_started": "Commencer",
   
   // Navigation
   "home": "Accueil",
