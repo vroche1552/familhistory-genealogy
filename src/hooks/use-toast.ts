@@ -1,24 +1,19 @@
 
-import * as React from "react";
-
-type ToastProps = {
+// Extremely simplified toast implementation
+export type ToastProps = {
   title?: string;
   description?: string;
   action?: React.ReactNode;
 };
 
 export function useToast() {
-  const toast = (props: ToastProps) => {
-    console.log('Toast:', props);
-    // Simplified implementation that just logs to console
-  };
-
   return {
-    toast
+    toast: (props: ToastProps) => {
+      console.log('Toast:', props);
+    }
   };
 }
 
 export const toast = (props: ToastProps) => {
   console.log('Toast:', props);
-  // Simplified direct toast function
 };

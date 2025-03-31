@@ -1,7 +1,7 @@
 
 import React from "react";
 
-// Empty sonner toaster
+// Empty placeholder component
 export const Toaster = () => {
   return null;
 };

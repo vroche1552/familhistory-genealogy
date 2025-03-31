@@ -18,7 +18,15 @@ import {
   Brain 
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useToast } from '@/hooks/use-toast';
+
+// Simplified toast implementation
+const useSimpleToast = () => {
+  return {
+    toast: (props: any) => {
+      console.log('Toast:', props);
+    }
+  };
+};
 
 // Mock OCR function - in a real app, this would call a proper OCR service
 const mockOcrAnalysis = async (file: File): Promise<string> => {
@@ -67,7 +75,7 @@ interface FileDropZoneProps {
 
 const FileDropZone: React.FC<FileDropZoneProps> = ({ onAddToBio }) => {
   const { t, language } = useLanguage();
-  const { toast } = useToast();
+  const { toast } = useSimpleToast();
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [ocrResults, setOcrResults] = useState<Record<string, string>>({});
@@ -130,7 +138,7 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({ onAddToBio }) => {
         title: language === 'fr' ? 'Analyse OCR terminée' : 'OCR Analysis Complete',
         description: language === 'fr' 
           ? 'Tous les fichiers ont été analysés avec succès.' 
-          : 'All files have been successfully analyzed.',
+          : 'All files have been successfully analyzed.'
       });
     } catch (error) {
       toast({
@@ -283,10 +291,7 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({ onAddToBio }) => {
                       className="text-xs text-cyber-accent p-0"
                       onClick={() => {
                         // In a real app, this would open a modal with full OCR results
-                        toast({
-                          title: language === 'fr' ? 'Texte complet' : 'Full Text',
-                          description: ocrResults[fileName].substring(0, 100) + '...'
-                        });
+                        console.log('Full OCR text:', ocrResults[fileName]);
                       }}
                     >
                       {language === 'fr' ? 'Voir le texte complet' : 'View full text'}
