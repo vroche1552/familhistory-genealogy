@@ -1,10 +1,10 @@
 
-import * as React from "react"
+import React from "react"
 import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "@/lib/utils"
 
-const TooltipProvider = ({ children, ...props }) => {
+const TooltipProvider = ({ children, ...props }: TooltipPrimitive.TooltipProviderProps) => {
   return (
     <TooltipPrimitive.Provider {...props}>
       {children}
