@@ -10,18 +10,15 @@ type ToastProps = {
 export function useToast() {
   const toast = (props: ToastProps) => {
     console.log('Toast:', props);
-    // In a real implementation, this would show a toast
-    // For now, we're just logging to make the app functional
+    // Simplified implementation that just logs to console
   };
 
   return {
-    toast,
-    toasts: [],
-    dismiss: () => {}
+    toast
   };
 }
 
 export const toast = (props: ToastProps) => {
   console.log('Toast:', props);
-  // Simplified toast function for direct usage
+  // Simplified direct toast function
 };

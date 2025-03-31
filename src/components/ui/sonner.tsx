@@ -1,8 +1,7 @@
 
 import React from "react";
 
-const Toaster = () => {
-  return null; // Simplified empty sonner toaster
+// Empty sonner toaster
+export const Toaster = () => {
+  return null;
 };
-
-export { Toaster };

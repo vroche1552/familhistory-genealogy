@@ -1,7 +1,7 @@
 
 import React from "react";
 
+// Empty toaster component
 export function Toaster() {
-  // Simplified empty toaster component
   return null;
 }

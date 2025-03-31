@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { 
@@ -138,8 +137,7 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({ onAddToBio }) => {
         title: language === 'fr' ? 'Erreur' : 'Error',
         description: language === 'fr'
           ? "Une erreur s'est produite lors de l'analyse des fichiers."
-          : "An error occurred while analyzing the files.",
-        variant: "destructive"
+          : "An error occurred while analyzing the files."
       });
     } finally {
       setUploading(false);
