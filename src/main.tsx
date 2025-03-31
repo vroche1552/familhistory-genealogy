@@ -17,15 +17,9 @@ const rootElement = document.getElementById('root') || (() => {
 window.React = React;
 
 // Initialize React immediately
-const root = ReactDOM.createRoot(rootElement);
-
-// Render the application
 try {
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(<App />);
 } catch (error) {
   console.error('Failed to render React application:', error);
   const errorElement = document.createElement('div');
