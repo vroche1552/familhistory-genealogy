@@ -4,19 +4,14 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-// Make React available globally to ensure components using hooks work properly
-window.React = React;
+const rootElement = document.getElementById('root');
 
-// Create root element if it doesn't exist
-const rootElement = document.getElementById('root') || (() => {
-  const root = document.createElement('div');
-  root.id = 'root';
-  document.body.appendChild(root);
-  return root;
-})();
+if (!rootElement) {
+  throw new Error('Root element not found');
+}
 
-// Initialize React
-const root = ReactDOM.createRoot(rootElement);
-root.render(
-  <App />
+ReactDOM.createRoot(rootElement).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );

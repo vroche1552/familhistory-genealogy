@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -25,11 +25,9 @@ interface DocumentationRankingProps {
   people: Person[];
 }
 
-type SortDirection = 'asc' | 'desc';
-
 const DocumentationRanking: React.FC<DocumentationRankingProps> = ({ people: initialPeople }) => {
-  const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
-  const [people, setPeople] = useState<Person[]>(
+  const [sortDirection, setSortDirection] = React.useState<'asc' | 'desc'>('desc');
+  const [people, setPeople] = React.useState<Person[]>(() => 
     [...initialPeople].sort((a, b) => 
       sortDirection === 'desc' ? b.documentCount - a.documentCount : a.documentCount - b.documentCount
     )
