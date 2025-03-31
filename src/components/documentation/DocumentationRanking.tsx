@@ -10,6 +10,7 @@ import {
   SortDesc, 
   Calendar 
 } from 'lucide-react';
+import { CustomAvatar } from '@/components/ui/custom-avatar';
 
 interface Person {
   id: string;
@@ -84,12 +85,13 @@ const DocumentationRanking: React.FC<DocumentationRankingProps> = ({ people: ini
                     {index + 1}
                   </div>
                   
-                  <div className="h-8 w-8 mr-3 rounded-full bg-cyber-dark flex items-center justify-center overflow-hidden">
-                    {person.imageUrl ? (
-                      <img src={person.imageUrl} alt={person.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <User className="h-4 w-4 text-muted-foreground" />
-                    )}
+                  <div className="h-8 w-8 mr-3">
+                    <CustomAvatar 
+                      src={person.imageUrl} 
+                      alt={person.name} 
+                      className="h-8 w-8"
+                      fallback={<User className="h-4 w-4 text-muted-foreground" />}
+                    />
                   </div>
                   
                   <div className="flex-grow">
