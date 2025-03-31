@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 type Language = 'en' | 'fr';
 
@@ -15,48 +15,24 @@ interface LanguageContextType {
   t: (key: keyof Translations) => string;
 }
 
-// Create context with a meaningful default value to avoid null check issues
-const defaultContextValue: LanguageContextType = {
-  language: 'en',
-  setLanguage: () => {},
-  t: (key) => String(key)
-};
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageContext = React.createContext<LanguageContextType>(defaultContextValue);
-
-interface LanguageProviderProps {
-  children: React.ReactNode;
-}
-
-export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
-  const [language, setLanguage] = React.useState<Language>('en');
-  
-  // Initialize language from localStorage or browser preferences
-  React.useEffect(() => {
-    try {
-      const savedLanguage = localStorage.getItem('language') as Language;
-      if (savedLanguage && ['en', 'fr'].includes(savedLanguage)) {
-        setLanguage(savedLanguage);
-        return;
-      }
-      
-      // Check browser language
-      const browserLang = navigator.language.split('-')[0];
-      if (browserLang === 'fr') {
-        setLanguage('fr');
-      }
-    } catch (error) {
-      console.error('Error initializing language:', error);
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const [language, setLanguage] = useState<Language>(() => {
+    // Try to get from localStorage or use browser language
+    const savedLanguage = localStorage.getItem('language') as Language;
+    if (savedLanguage && ['en', 'fr'].includes(savedLanguage)) {
+      return savedLanguage;
     }
-  }, []);
+    
+    // Check browser language
+    const browserLang = navigator.language.split('-')[0];
+    return browserLang === 'fr' ? 'fr' : 'en';
+  });
 
   // Save to localStorage when language changes
-  React.useEffect(() => {
-    try {
-      localStorage.setItem('language', language);
-    } catch (error) {
-      console.error('Error saving language preference:', error);
-    }
+  useEffect(() => {
+    localStorage.setItem('language', language);
   }, [language]);
 
   // Get translations based on current language
@@ -64,25 +40,19 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
 
   // Translation function
   const t = (key: keyof Translations) => {
-    return translations[key] || String(key);
-  };
-
-  const value: LanguageContextType = {
-    language,
-    setLanguage,
-    t
+    return translations[key] || key;
   };
 
   return (
-    <LanguageContext.Provider value={value}>
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );
-};
+}
 
 export function useLanguage() {
-  const context = React.useContext(LanguageContext);
-  if (!context) {
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;

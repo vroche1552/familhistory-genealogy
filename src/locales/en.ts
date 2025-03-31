@@ -70,7 +70,6 @@ const translations = {
   "export": "Export",
   "share": "Share",
   "view_in_tree": "View in Tree",
-  "family_tree_instructions": "Drag to move the tree. Use buttons or scroll wheel to zoom.",
   
   // Dashboard
   "recent_activity": "Recent Activity",

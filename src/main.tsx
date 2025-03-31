@@ -1,19 +1,10 @@
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
 // Create root and render app
-const rootElement = document.getElementById("root");
-if (!rootElement) throw new Error('Root element not found');
-
-// Render the app with StrictMode
-ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+createRoot(document.getElementById("root")!).render(<App />);
 
 // Register service worker for PWA support
 if ('serviceWorker' in navigator) {
