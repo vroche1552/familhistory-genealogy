@@ -37,85 +37,45 @@ const Navbar = () => {
             </Link>
           </div>
           
-          <div className="hidden md:block">
-            <NavigationMenu className="ml-10">
-              <NavigationMenuList className="flex items-center space-x-4">
-                <NavigationMenuItem>
-                  <Link to="/" className="text-cyber-foreground hover:text-cyber-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                    {t('home')}
-                  </Link>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-cyber-foreground hover:text-cyber-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                    {t('features')}
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                      <li className="row-span-3">
-                        <NavigationMenuLink asChild>
-                          <a
-                            className="flex h-full w-full flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                            href="/tree"
-                          >
-                            <div className="mb-2 mt-4 text-lg font-medium">
-                              {t('family_tree')}
-                            </div>
-                            <p className="text-sm leading-tight text-muted-foreground">
-                              {t('tree_builder_desc')}
-                            </p>
-                          </a>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink asChild>
-                          <a href="/features" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                            <div className="text-sm font-medium leading-none">{t('user_profiles')}</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              {t('user_profiles_desc')}
-                            </p>
-                          </a>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink asChild>
-                          <a href="/features" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                            <div className="text-sm font-medium leading-none">{t('privacy_controls')}</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              {t('privacy_controls_desc')}
-                            </p>
-                          </a>
-                        </NavigationMenuLink>
-                      </li>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <Link to="/about" className="text-cyber-foreground hover:text-cyber-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                    {t('about')}
-                  </Link>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <LanguageSwitcher />
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <Button variant="outline" className="cyber-button" onClick={() => openAuthModal('login')}>
-                    {t('login')}
-                  </Button>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <Button className="bg-cyber-accent hover:bg-cyber-accent/80 text-black" onClick={() => openAuthModal('signup')}>
-                    {t('signup')}
-                  </Button>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex md:items-center md:space-x-4">
+            <Link to="/" className="text-cyber-foreground hover:text-cyber-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              {t('home')}
+            </Link>
+            
+            <div className="relative group">
+              <button className="text-cyber-foreground hover:text-cyber-accent px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
+                {t('features')} <ChevronDown className="ml-1 h-4 w-4" />
+              </button>
+              <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-cyber-dark border border-cyber-border/30 invisible group-hover:visible transition-all duration-200 opacity-0 group-hover:opacity-100">
+                <Link to="/tree" className="block px-4 py-2 text-sm text-cyber-foreground hover:text-cyber-accent">
+                  {t('family_tree')}
+                </Link>
+                <Link to="/features" className="block px-4 py-2 text-sm text-cyber-foreground hover:text-cyber-accent">
+                  {t('user_profiles')}
+                </Link>
+                <Link to="/features" className="block px-4 py-2 text-sm text-cyber-foreground hover:text-cyber-accent">
+                  {t('privacy_controls')}
+                </Link>
+              </div>
+            </div>
+            
+            <Link to="/about" className="text-cyber-foreground hover:text-cyber-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              {t('about')}
+            </Link>
+            
+            <LanguageSwitcher />
+            
+            <Button variant="outline" className="cyber-button" onClick={() => openAuthModal('login')}>
+              {t('login')}
+            </Button>
+            
+            <Button className="bg-cyber-accent hover:bg-cyber-accent/80 text-black" onClick={() => openAuthModal('signup')}>
+              {t('signup')}
+            </Button>
           </div>
           
+          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -129,6 +89,7 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Mobile menu */}
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-cyber-dark/90 backdrop-blur-md animate-fade-in">
@@ -154,12 +115,15 @@ const Navbar = () => {
         </div>
       )}
 
-      <AuthModal 
-        isOpen={isAuthModalOpen} 
-        onClose={() => setIsAuthModalOpen(false)} 
-        type={authType} 
-        onSwitchType={(type) => setAuthType(type)} 
-      />
+      {/* Auth Modal - only render when open */}
+      {isAuthModalOpen && (
+        <AuthModal 
+          isOpen={isAuthModalOpen} 
+          onClose={() => setIsAuthModalOpen(false)} 
+          type={authType} 
+          onSwitchType={(type) => setAuthType(type)} 
+        />
+      )}
     </nav>
   );
 };

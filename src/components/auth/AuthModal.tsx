@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Lock, Mail, User, X } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from "sonner";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -18,21 +18,18 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, type, onSwitchTy
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     // For demo purposes, just show a toast
     if (type === 'login') {
-      toast({
-        title: "Login successful",
-        description: "Welcome back to CyberFamily Trees!",
+      toast("Login successful", {
+        description: "Welcome back to CyberFamily Trees!"
       });
     } else {
-      toast({
-        title: "Account created",
-        description: "Welcome to CyberFamily Trees!",
+      toast("Account created", {
+        description: "Welcome to CyberFamily Trees!"
       });
     }
     
@@ -42,6 +39,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, type, onSwitchTy
     setName('');
     onClose();
   };
+
+  // Only render if open to avoid React errors
+  if (!isOpen) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
