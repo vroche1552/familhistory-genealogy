@@ -10,7 +10,6 @@ import {
   SortDesc, 
   Calendar 
 } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface Person {
   id: string;
