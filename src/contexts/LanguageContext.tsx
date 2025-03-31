@@ -20,19 +20,24 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>(() => {
     // Try to get from localStorage or use browser language
-    const savedLanguage = localStorage.getItem('language') as Language;
-    if (savedLanguage && ['en', 'fr'].includes(savedLanguage)) {
-      return savedLanguage;
+    if (typeof window !== 'undefined') {
+      const savedLanguage = localStorage.getItem('language') as Language;
+      if (savedLanguage && ['en', 'fr'].includes(savedLanguage)) {
+        return savedLanguage;
+      }
+      
+      // Check browser language
+      const browserLang = navigator.language.split('-')[0];
+      return browserLang === 'fr' ? 'fr' : 'en';
     }
-    
-    // Check browser language
-    const browserLang = navigator.language.split('-')[0];
-    return browserLang === 'fr' ? 'fr' : 'en';
+    return 'en'; // Default fallback
   });
 
   // Save to localStorage when language changes
   useEffect(() => {
-    localStorage.setItem('language', language);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('language', language);
+    }
   }, [language]);
 
   // Get translations based on current language

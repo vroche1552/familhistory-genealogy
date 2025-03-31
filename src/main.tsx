@@ -13,9 +13,18 @@ if (!rootElement) {
   document.body.appendChild(root);
 }
 
-// Create root and render the app
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+// Use a try-catch block to handle potential React initialization errors
+try {
+  const root = ReactDOM.createRoot(document.getElementById('root')!);
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+} catch (error) {
+  console.error('Failed to render React application:', error);
+  // Display a fallback UI for critical errors
+  const errorElement = document.createElement('div');
+  errorElement.innerHTML = '<h1>Something went wrong</h1><p>Please try refreshing the page.</p>';
+  document.body.appendChild(errorElement);
+}
