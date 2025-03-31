@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { 
@@ -23,7 +24,7 @@ interface FileDropZoneProps {
 const FileDropZone: React.FC<FileDropZoneProps> = ({ onAddToBio }) => {
   const { t, language } = useLanguage();
   const { toast } = useToast();
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = React.useState<File[]>([]);
   
   const onDrop = React.useCallback((acceptedFiles: File[]) => {
     setFiles(prev => [...prev, ...acceptedFiles]);
