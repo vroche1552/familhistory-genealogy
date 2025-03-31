@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-// Create and render the root immediately without waiting for DOMContentLoaded
-// This helps prevent timing issues with React initialization
+// Create root element if it doesn't exist
 const rootElement = document.getElementById('root') || (() => {
   const root = document.createElement('div');
   root.id = 'root';
@@ -13,8 +12,11 @@ const rootElement = document.getElementById('root') || (() => {
   return root;
 })();
 
+// Initialize React immediately
+const root = ReactDOM.createRoot(rootElement);
+
+// Render the application
 try {
-  const root = ReactDOM.createRoot(rootElement);
   root.render(
     <React.StrictMode>
       <App />
@@ -30,6 +32,7 @@ try {
 // Add a global error handler for uncaught errors
 window.addEventListener('error', (event) => {
   console.error('Global error caught:', event.error);
+  
   // Prevent the blank screen if React fails to initialize properly
   if (document.body.children.length === 0 || 
       (document.getElementById('root') && document.getElementById('root').children.length === 0)) {
