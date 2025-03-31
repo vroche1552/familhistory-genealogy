@@ -12,14 +12,17 @@ const rootElement = document.getElementById('root') || (() => {
   return root;
 })();
 
-// Define React in window to ensure global availability
-// This can help with certain dependency issues
+// Set React on window explicitly before initializing any components
 window.React = React;
 
-// Initialize React immediately
+// Initialize React with StrictMode to help catch potential issues
 try {
   const root = ReactDOM.createRoot(rootElement);
-  root.render(<App />);
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
 } catch (error) {
   console.error('Failed to render React application:', error);
   const errorElement = document.createElement('div');

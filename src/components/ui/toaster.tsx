@@ -1,12 +1,24 @@
 
 import { Toaster as Sonner } from "sonner";
 import { cn } from "@/lib/utils";
+import React from "react";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 function Toaster({ className, ...props }: ToasterProps) {
+  // Use a ref to store the toaster instance
+  const toasterRef = React.useRef<any>(null);
+  
+  // Make toast function globally available
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      (window as any).__sonner = toasterRef.current;
+    }
+  }, []);
+
   return (
     <Sonner
+      ref={toasterRef}
       className={cn("toaster group", className)}
       toastOptions={{
         classNames: {
