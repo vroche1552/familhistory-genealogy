@@ -1,7 +1,7 @@
 
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Trash2, ZoomIn, ZoomOut, Move } from 'lucide-react';
+import { PlusCircle, ZoomIn, ZoomOut } from 'lucide-react';
 import PersonaCard from '../persona/PersonaCard';
 
 interface Person {
