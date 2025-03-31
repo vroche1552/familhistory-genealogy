@@ -31,11 +31,11 @@ const PersonaCard: React.FC<PersonaCardProps> = ({ person, isDetailed = false })
         transition={{ duration: 0.2 }}
       >
         <Card 
-          className="w-52 cyber-card overflow-hidden transition-all duration-300"
+          className="w-40 cyber-card overflow-hidden transition-all duration-300"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="relative h-40 overflow-hidden">
+          <div className="relative h-32 overflow-hidden">
             {person.imageUrl ? (
               <img 
                 src={person.imageUrl} 
@@ -46,7 +46,7 @@ const PersonaCard: React.FC<PersonaCardProps> = ({ person, isDetailed = false })
               />
             ) : (
               <div className="w-full h-full bg-cyber-dark flex items-center justify-center">
-                <User className="h-16 w-16 text-cyber-foreground/30" aria-hidden="true" />
+                <User className="h-12 w-12 text-cyber-foreground/30" aria-hidden="true" />
               </div>
             )}
             
@@ -57,17 +57,17 @@ const PersonaCard: React.FC<PersonaCardProps> = ({ person, isDetailed = false })
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.2 }}
               >
-                <Edit className="h-4 w-4 text-cyber-accent" aria-hidden="true" />
+                <Edit className="h-3 w-3 text-cyber-accent" aria-hidden="true" />
               </motion.div>
             )}
           </div>
           
-          <CardContent className="p-4">
-            <h3 className="font-semibold text-cyber-foreground truncate">{person.name}</h3>
+          <CardContent className="p-3 text-center">
+            <h3 className="font-semibold text-cyber-foreground text-sm truncate">{person.name}</h3>
             
             {(person.birthYear || person.deathYear) && (
-              <div className="flex items-center mt-2 text-sm text-muted-foreground">
-                <Calendar className="h-3 w-3 mr-1 inline" aria-hidden="true" />
+              <div className="flex items-center justify-center mt-1 text-xs text-muted-foreground">
+                <Calendar className="h-2.5 w-2.5 mr-1 inline" aria-hidden="true" />
                 <span>
                   {person.birthYear && <span>{person.birthYear}</span>}
                   {person.birthYear && person.deathYear && <span> - </span>}
@@ -77,7 +77,7 @@ const PersonaCard: React.FC<PersonaCardProps> = ({ person, isDetailed = false })
             )}
             
             {isDetailed && (
-              <div className="mt-3 text-sm">
+              <div className="mt-2 text-xs">
                 <div className="text-muted-foreground">
                   <span className="text-cyber-accent">Parents:</span> {person.parents.length}
                 </div>

@@ -112,13 +112,13 @@ const FamilyTree: React.FC<TreeProps> = ({ initialData = [] }) => {
       {/* Controls */}
       <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
         <Button variant="outline" size="icon" onClick={handleZoomIn} className="cyber-button">
-          <ZoomIn className="h-4 w-4" />
+          <ZoomIn className="h-3 w-3" />
         </Button>
         <Button variant="outline" size="icon" onClick={handleZoomOut} className="cyber-button">
-          <ZoomOut className="h-4 w-4" />
+          <ZoomOut className="h-3 w-3" />
         </Button>
         <Button variant="outline" size="icon" onClick={handleAddPerson} className="cyber-button">
-          <PlusCircle className="h-4 w-4" />
+          <PlusCircle className="h-3 w-3" />
         </Button>
       </div>
       
@@ -145,26 +145,34 @@ const FamilyTree: React.FC<TreeProps> = ({ initialData = [] }) => {
             {/* Simple tree layout for demonstration */}
             <div className="flex flex-col items-center">
               {/* First generation - parents */}
-              <div className="flex gap-8 mb-16">
+              <div className="flex gap-6 mb-12">
                 {people.filter(p => p.parents.length === 0).map((person) => (
                   <div key={person.id} className="relative">
-                    <PersonaCard person={person} />
+                    <div className="flex flex-col items-center">
+                      <PersonaCard person={person} />
+                      
+                      {/* Line underneath card */}
+                      <div className="h-[8px] w-full border-l border-cyber-accent/40"></div>
+                    </div>
                     
                     {/* Partner connection line */}
                     {person.partners.length > 0 && (
-                      <div className="absolute h-[1px] bg-cyber-accent/40 w-8 top-1/2 -right-8"></div>
+                      <div className="absolute h-[1px] bg-cyber-accent/40 w-6 top-20 -right-6"></div>
                     )}
                   </div>
                 ))}
               </div>
               
               {/* Vertical connection line */}
-              <div className="h-16 w-[1px] bg-cyber-accent/40 -mt-16"></div>
+              <div className="h-8 w-[1px] bg-cyber-accent/40 -mt-8"></div>
               
               {/* Second generation - children */}
-              <div className="flex gap-8">
+              <div className="flex gap-6">
                 {people.filter(p => p.parents.length > 0).map((person) => (
-                  <PersonaCard key={person.id} person={person} />
+                  <div key={person.id} className="flex flex-col items-center">
+                    <PersonaCard person={person} />
+                    <div className="h-[8px] w-full border-l border-cyber-accent/40"></div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -173,7 +181,7 @@ const FamilyTree: React.FC<TreeProps> = ({ initialData = [] }) => {
       </div>
       
       {/* Instructions */}
-      <div className="absolute bottom-4 left-4 text-sm text-muted-foreground bg-cyber-background/80 p-2 rounded">
+      <div className="absolute bottom-4 left-4 text-xs text-muted-foreground bg-cyber-background/80 p-2 rounded">
         <p>Drag to move • Scroll or use buttons to zoom</p>
       </div>
     </div>

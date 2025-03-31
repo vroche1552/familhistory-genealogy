@@ -33,6 +33,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import HistoricalEvents from '@/components/persona/HistoricalEvents';
 import FileDropZone from '@/components/persona/FileDropZone';
+import KeyFacts from '@/components/persona/KeyFacts';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 
@@ -57,6 +58,13 @@ const personData = {
     { name: 'Certificat de naissance', type: 'certificate', date: '1950' },
     { name: 'Licence de mariage', type: 'certificate', date: '1975' },
     { name: 'Licence d\'architecture', type: 'license', date: '1978' }
+  ],
+  keyFacts: [
+    "Designed the award-winning Lumière Building in 1985, which became an architectural landmark in Paris.",
+    "Served as the president of the French Architectural Society from 1990 to 1995.",
+    "Published 'Modern Urban Spaces' in 1988, a book that influenced a generation of architects.",
+    "Won the Grand Prix National de l'Architecture in 1992 for his innovative designs.",
+    "Pioneered sustainable building practices in France during the early 1980s."
   ],
   timeline: [
     { year: '1950', event: 'Né à Paris, France', icon: 'User' },
@@ -201,6 +209,12 @@ const Persona = () => {
                   </div>
                 </CardContent>
               </Card>
+              
+              {/* Key Facts Component */}
+              <KeyFacts 
+                personName={person.name} 
+                facts={person.keyFacts || []} 
+              />
               
               {/* Family relationships */}
               <Card className="mb-6 border border-gray-800 bg-black">
