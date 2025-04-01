@@ -1,58 +1,60 @@
-
-import Navbar from '@/components/layout/Navbar';
-import FamilyTree from '@/components/tree/FamilyTree';
-import { Button } from '@/components/ui/button';
-import { 
-  Download, 
-  Upload, 
-  Share2, 
-  PlusCircle,
-  Save,
-  Trees,
-  Brain
-} from 'lucide-react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { PlusCircle, Save, Upload, Download, Share2 } from 'lucide-react';
+import FamilyTree from '@/components/tree/FamilyTree';
+import { useFamily } from '@/contexts/FamilyContext';
 
 const Tree = () => {
   const { t } = useLanguage();
-  
+  const { family } = useFamily();
+
   return (
-    <div className="min-h-screen bg-cyber-background text-cyber-foreground flex flex-col intelligence-pattern">
-      <Navbar />
-      
-      <main className="flex-grow flex flex-col">
-        {/* Tree Controls */}
-        <div className="bg-cyber-dark border-b border-cyber-border/30 p-4">
-          <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center">
-            <h1 className="text-xl font-semibold cyber-text-gradient mb-4 sm:mb-0">
-              <Brain className="h-5 w-5 inline-block mr-2 text-cyber-accent" />
-              {t('family_tree_builder')}
-            </h1>
+    <div className="min-h-screen bg-background">
+      <main className="container mx-auto py-6 flex flex-col gap-6">
+        {/* Header */}
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold">{t('family.family_tree')}</h1>
+              <p className="text-muted-foreground mt-1">
+                {family.length} {t('family.members')}
+              </p>
+            </div>
             
-            <div className="flex flex-wrap gap-2 justify-center">
-              <Button variant="outline" size="sm" className="cyber-button">
-                <PlusCircle className="h-4 w-4 mr-2" /> {t('add_person')}
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" size="sm">
+                <PlusCircle className="h-4 w-4 mr-2" /> {t('family.add_person')}
               </Button>
-              <Button variant="outline" size="sm" className="cyber-button">
-                <Save className="h-4 w-4 mr-2" /> {t('save')}
+              <Button variant="outline" size="sm">
+                <Save className="h-4 w-4 mr-2" /> {t('common.save')}
               </Button>
-              <Button variant="outline" size="sm" className="cyber-button">
-                <Upload className="h-4 w-4 mr-2" /> {t('import')}
+              <Link to="/import">
+                <Button variant="outline" size="sm">
+                  <Upload className="h-4 w-4 mr-2" /> {t('family.import')}
+                </Button>
+              </Link>
+              <Button variant="outline" size="sm">
+                <Download className="h-4 w-4 mr-2" /> {t('family.export')}
               </Button>
-              <Button variant="outline" size="sm" className="cyber-button">
-                <Download className="h-4 w-4 mr-2" /> {t('export')}
-              </Button>
-              <Button variant="outline" size="sm" className="cyber-button">
-                <Share2 className="h-4 w-4 mr-2" /> {t('share')}
+              <Button variant="outline" size="sm">
+                <Share2 className="h-4 w-4 mr-2" /> {t('common.share')}
               </Button>
             </div>
           </div>
         </div>
         
-        {/* Tree Visualization */}
-        <div className="flex-grow p-4">
-          <FamilyTree />
-        </div>
+        {/* Tree View */}
+        <Card className="flex-grow">
+          <CardHeader>
+            <CardTitle>{t('family.visualization')}</CardTitle>
+          </CardHeader>
+          <CardContent className="min-h-[600px] p-0">
+            <FamilyTree />
+          </CardContent>
+        </Card>
       </main>
     </div>
   );

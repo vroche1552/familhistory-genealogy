@@ -1,64 +1,16 @@
-
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { PlusCircle, ZoomIn, ZoomOut } from 'lucide-react';
 import PersonaCard from '../persona/PersonaCard';
-
-interface Person {
-  id: string;
-  name: string;
-  birthYear?: string;
-  deathYear?: string;
-  imageUrl?: string;
-  parents: string[];
-  children: string[];
-  partners: string[];
-}
+import { useFamily } from '@/contexts/FamilyContext';
+import { Person } from '@/types';
 
 interface TreeProps {
   initialData?: Person[];
 }
 
 const FamilyTree: React.FC<TreeProps> = ({ initialData = [] }) => {
-  const [people, setPeople] = useState<Person[]>(initialData.length > 0 ? initialData : [
-    { 
-      id: '1', 
-      name: 'John Doe', 
-      birthYear: '1950', 
-      imageUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
-      parents: [], 
-      children: ['3', '4'], 
-      partners: ['2'] 
-    },
-    { 
-      id: '2', 
-      name: 'Jane Doe', 
-      birthYear: '1953', 
-      imageUrl: 'https://randomuser.me/api/portraits/women/1.jpg',
-      parents: [], 
-      children: ['3', '4'], 
-      partners: ['1'] 
-    },
-    { 
-      id: '3', 
-      name: 'Michael Doe', 
-      birthYear: '1975', 
-      imageUrl: 'https://randomuser.me/api/portraits/men/2.jpg',
-      parents: ['1', '2'], 
-      children: [], 
-      partners: [] 
-    },
-    { 
-      id: '4', 
-      name: 'Sarah Doe', 
-      birthYear: '1978', 
-      imageUrl: 'https://randomuser.me/api/portraits/women/2.jpg',
-      parents: ['1', '2'], 
-      children: [], 
-      partners: [] 
-    }
-  ]);
-  
+  const { family } = useFamily();
   const [zoom, setZoom] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -93,37 +45,37 @@ const FamilyTree: React.FC<TreeProps> = ({ initialData = [] }) => {
     setIsDragging(false);
   };
 
-  const handleAddPerson = () => {
-    const newId = (people.length + 1).toString();
-    const newPerson: Person = {
-      id: newId,
-      name: `New Person ${newId}`,
-      birthYear: '',
-      parents: [],
-      children: [],
-      partners: []
-    };
-    
-    setPeople(prev => [...prev, newPerson]);
-  };
+  // Get all members from all families
+  const allMembers = family.flatMap(f => f.members);
+
+  // Group members by their relation depth (parents -> children)
+  const membersByGeneration = allMembers.reduce((acc, member) => {
+    // Calculate generation based on relations
+    const generation = member.relations.some(r => r.relationType === 'parent') ? 1 : 0;
+    if (!acc[generation]) acc[generation] = [];
+    acc[generation].push(member);
+    return acc;
+  }, {} as Record<number, Person[]>);
+
+  // Sort generations
+  const generations = Object.keys(membersByGeneration)
+    .map(Number)
+    .sort((a, b) => a - b);
 
   return (
-    <div className="w-full h-[calc(100vh-64px)] relative overflow-hidden bg-cyber-dark/30 rounded-md border border-cyber-border/30">
+    <div className="w-full h-[calc(100vh-64px)] relative overflow-hidden bg-background/30 rounded-md border">
       {/* Controls */}
       <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
-        <Button variant="outline" size="icon" onClick={handleZoomIn} className="cyber-button">
-          <ZoomIn className="h-3 w-3" />
+        <Button variant="outline" size="icon" onClick={handleZoomIn}>
+          <ZoomIn className="h-4 w-4" />
         </Button>
-        <Button variant="outline" size="icon" onClick={handleZoomOut} className="cyber-button">
-          <ZoomOut className="h-3 w-3" />
-        </Button>
-        <Button variant="outline" size="icon" onClick={handleAddPerson} className="cyber-button">
-          <PlusCircle className="h-3 w-3" />
+        <Button variant="outline" size="icon" onClick={handleZoomOut}>
+          <ZoomOut className="h-4 w-4" />
         </Button>
       </div>
       
       {/* Tree container */}
-      <div 
+      <div
         ref={treeRef}
         className="w-full h-full cursor-grab active:cursor-grabbing"
         onMouseDown={handleMouseDown}
@@ -142,46 +94,46 @@ const FamilyTree: React.FC<TreeProps> = ({ initialData = [] }) => {
         >
           {/* Tree content - centered initially */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            {/* Simple tree layout for demonstration */}
-            <div className="flex flex-col items-center">
-              {/* First generation - parents */}
-              <div className="flex gap-6 mb-12">
-                {people.filter(p => p.parents.length === 0).map((person) => (
-                  <div key={person.id} className="relative">
-                    <div className="flex flex-col items-center">
-                      <PersonaCard person={person} />
+            {/* Render generations */}
+            <div className="flex flex-col gap-16">
+              {generations.map(gen => (
+                <div key={gen} className="flex gap-8 justify-center">
+                  {membersByGeneration[gen].map(person => (
+                    <div key={person.id} className="relative">
+                      <PersonaCard
+                        person={{
+                          id: person.id,
+                          name: `${person.firstName} ${person.lastName}`,
+                          birthYear: new Date(person.birthDate).getFullYear().toString(),
+                          deathYear: person.deathDate ? new Date(person.deathDate).getFullYear().toString() : undefined,
+                          imageUrl: person.photo,
+                          parents: person.relations.filter(r => r.relationType === 'parent').map(r => r.id),
+                          children: person.relations.filter(r => r.relationType === 'child').map(r => r.id),
+                          partners: person.relations.filter(r => r.relationType === 'spouse').map(r => r.id)
+                        }}
+                        isDetailed
+                      />
                       
-                      {/* Line underneath card */}
-                      <div className="h-[8px] w-full border-l border-cyber-accent/40"></div>
+                      {/* Draw lines to children */}
+                      {person.relations.some(r => r.relationType === 'child') && (
+                        <div className="absolute left-1/2 bottom-0 w-px h-16 bg-border -mb-16 transform -translate-x-1/2" />
+                      )}
+                      
+                      {/* Draw lines to spouse */}
+                      {person.relations.some(r => r.relationType === 'spouse') && (
+                        <div className="absolute top-1/2 right-0 w-8 h-px bg-border -mr-8" />
+                      )}
                     </div>
-                    
-                    {/* Partner connection line */}
-                    {person.partners.length > 0 && (
-                      <div className="absolute h-[1px] bg-cyber-accent/40 w-6 top-20 -right-6"></div>
-                    )}
-                  </div>
-                ))}
-              </div>
-              
-              {/* Vertical connection line */}
-              <div className="h-8 w-[1px] bg-cyber-accent/40 -mt-8"></div>
-              
-              {/* Second generation - children */}
-              <div className="flex gap-6">
-                {people.filter(p => p.parents.length > 0).map((person) => (
-                  <div key={person.id} className="flex flex-col items-center">
-                    <PersonaCard person={person} />
-                    <div className="h-[8px] w-full border-l border-cyber-accent/40"></div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
       
       {/* Instructions */}
-      <div className="absolute bottom-4 left-4 text-xs text-muted-foreground bg-cyber-background/80 p-2 rounded">
+      <div className="absolute bottom-4 left-4 text-xs text-muted-foreground bg-background/80 p-2 rounded">
         <p>Drag to move • Scroll or use buttons to zoom</p>
       </div>
     </div>

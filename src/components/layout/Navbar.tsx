@@ -1,129 +1,76 @@
-
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Brain, ChevronDown } from 'lucide-react';
-import AuthModal from '../auth/AuthModal';
-import LanguageSwitcher from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { 
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger 
-} from "@/components/ui/navigation-menu";
+import { useTheme } from '@/contexts/ThemeContext';
+import { Sun, Moon, Globe, Palette } from 'lucide-react';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useGetFamilyTreeQuery } from '@/lib/api';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authType, setAuthType] = useState<'login' | 'signup'>('login');
+const Navbar: React.FC = () => {
   const { t } = useLanguage();
+  const { theme, setTheme } = useTheme();
+  const location = useLocation();
+  const { data: familyTree } = useGetFamilyTreeQuery('1'); // Get the first family tree
 
-  const openAuthModal = (type: 'login' | 'signup') => {
-    setAuthType(type);
-    setIsAuthModalOpen(true);
-  };
+  const isActive = (path: string) => location.pathname.startsWith(path);
 
   return (
-    <nav className="sticky top-0 z-50 bg-cyber-dark/80 backdrop-blur-md border-b border-cyber-border/30" role="navigation" aria-label="Main navigation">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center" aria-label="Go to home page">
-              <Brain className="h-8 w-8 mr-2 text-cyber-accent" aria-hidden="true" />
-              <span className="text-xl font-bold cyber-text-gradient">{t('app_name')}</span>
+    <nav className="border-b bg-background">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="flex items-center space-x-8">
+          <Link to="/" className="text-xl font-bold">
+            {t('common.app_name')}
+          </Link>
+          <div className="hidden md:flex space-x-4">
+            <Link to="/tree">
+              <Button variant={isActive('/tree') ? 'default' : 'ghost'}>
+                {t('common.tree')}
+              </Button>
+            </Link>
+            <Link to={familyTree ? `/family/${familyTree.id}` : '/family/1'}>
+              <Button variant={isActive('/family') ? 'default' : 'ghost'}>
+                {t('common.family')}
+              </Button>
+            </Link>
+            <Link to="/dashboard">
+              <Button variant={isActive('/dashboard') ? 'default' : 'ghost'}>
+                {t('common.dashboard')}
+              </Button>
             </Link>
           </div>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-4">
-            <Link to="/" className="text-cyber-foreground hover:text-cyber-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">
-              {t('home')}
-            </Link>
-            
-            <div className="relative group">
-              <button className="text-cyber-foreground hover:text-cyber-accent px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
-                {t('features')} <ChevronDown className="ml-1 h-4 w-4" />
-              </button>
-              <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-cyber-dark border border-cyber-border/30 invisible group-hover:visible transition-all duration-200 opacity-0 group-hover:opacity-100">
-                <Link to="/tree" className="block px-4 py-2 text-sm text-cyber-foreground hover:text-cyber-accent">
-                  {t('family_tree')}
-                </Link>
-                <Link to="/features" className="block px-4 py-2 text-sm text-cyber-foreground hover:text-cyber-accent">
-                  {t('user_profiles')}
-                </Link>
-                <Link to="/features" className="block px-4 py-2 text-sm text-cyber-foreground hover:text-cyber-accent">
-                  {t('privacy_controls')}
-                </Link>
-              </div>
-            </div>
-            
-            <Link to="/about" className="text-cyber-foreground hover:text-cyber-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">
-              {t('about')}
-            </Link>
-            
-            <LanguageSwitcher />
-            
-            <Button variant="outline" className="cyber-button" onClick={() => openAuthModal('login')}>
-              {t('login')}
-            </Button>
-            
-            <Button className="bg-cyber-accent hover:bg-cyber-accent/80 text-black" onClick={() => openAuthModal('signup')}>
-              {t('signup')}
-            </Button>
-          </div>
-          
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-cyber-foreground hover:text-cyber-accent focus:outline-none"
-              aria-expanded={isMenuOpen}
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            >
-              {isMenuOpen ? <X className="h-6 w-6" aria-hidden="true" /> : <Menu className="h-6 w-6" aria-hidden="true" />}
-            </button>
-          </div>
+        </div>
+        <div className="flex items-center space-x-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Palette className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTheme('light')}>
+                <Sun className="mr-2 h-4 w-4" />
+                <span>Light</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme('dark')}>
+                <Moon className="mr-2 h-4 w-4" />
+                <span>Dark</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme('dark-blue')}>
+                <Moon className="mr-2 h-4 w-4" />
+                <span>Dark Blue</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <LanguageSwitcher />
         </div>
       </div>
-
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-cyber-dark/90 backdrop-blur-md animate-fade-in">
-            <Link to="/" className="text-cyber-foreground hover:text-cyber-accent block px-3 py-2 rounded-md text-base font-medium">
-              {t('home')}
-            </Link>
-            <Link to="/features" className="text-cyber-foreground hover:text-cyber-accent block px-3 py-2 rounded-md text-base font-medium">
-              {t('features')}
-            </Link>
-            <Link to="/about" className="text-cyber-foreground hover:text-cyber-accent block px-3 py-2 rounded-md text-base font-medium">
-              {t('about')}
-            </Link>
-            <div className="px-3 py-2">
-              <LanguageSwitcher />
-            </div>
-            <Button variant="outline" className="w-full mt-2 cyber-button" onClick={() => openAuthModal('login')}>
-              {t('login')}
-            </Button>
-            <Button className="w-full mt-2 bg-cyber-accent hover:bg-cyber-accent/80 text-black" onClick={() => openAuthModal('signup')}>
-              {t('signup')}
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* Auth Modal - only render when open */}
-      {isAuthModalOpen && (
-        <AuthModal 
-          isOpen={isAuthModalOpen} 
-          onClose={() => setIsAuthModalOpen(false)} 
-          type={authType} 
-          onSwitchType={(type) => setAuthType(type)} 
-        />
-      )}
     </nav>
   );
 };

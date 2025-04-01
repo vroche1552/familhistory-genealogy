@@ -1,0 +1,134 @@
+{
+  "landing": {
+    "welcome": "Bienvenue dans votre Histoire Familiale",
+    "subtitle": "Découvrez et préservez l'histoire de votre famille à travers les générations",
+    "get_started": "Commencer",
+    "import_gedcom": "Importer un fichier GEDCOM",
+    "features": "Fonctionnalités",
+    "features_list": {
+      "family_tree": {
+        "title": "Arbre Généalogique",
+        "description": "Créez et visualisez votre arbre généalogique de manière interactive"
+      },
+      "document_management": {
+        "title": "Gestion des Documents",
+        "description": "Organisez et préservez vos documents familiaux historiques"
+      },
+      "geographic": {
+        "title": "Visualisation Géographique",
+        "description": "Explorez l'histoire de votre famille à travers le monde"
+      },
+      "timeline": {
+        "title": "Vue Chronologique",
+        "description": "Visualisez l'histoire de votre famille sur une ligne du temps"
+      },
+      "ai_assistant": {
+        "title": "Assistant IA",
+        "description": "Obtenez de l'aide pour la recherche et l'organisation de vos données"
+      },
+      "collaboration": {
+        "title": "Collaboration",
+        "description": "Travaillez ensemble sur votre histoire familiale"
+      }
+    }
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "family_tree": "Arbre généalogique",
+    "import": "Importer",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+    "login": "Connexion",
+    "signup": "S'inscrire"
+  },
+  "auth": {
+    "login": "Connexion",
+    "signup": "Inscription",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirm_password": "Confirmer le mot de passe",
+    "forgot_password": "Mot de passe oublié ?",
+    "already_have_account": "Déjà un compte ?",
+    "no_account": "Pas encore de compte ?"
+  },
+  "family": {
+    "add_person": "Ajouter une personne",
+    "export": "Exporter",
+    "import": "Importer",
+    "save": "Enregistrer",
+    "share": "Partager",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "generation": "Génération",
+    "visualization": "Visualisation de l'arbre",
+    "members": "membres",
+    "no_members": "Aucun membre",
+    "person_added": "Personne ajoutée",
+    "person_updated": "Personne mise à jour",
+    "person_deleted": "Personne supprimée"
+  },
+  "person": {
+    "personal_info": "Informations personnelles",
+    "documents": "Documents",
+    "timeline": "Chronologie",
+    "biography": "Biographie",
+    "key_facts": "Faits marquants",
+    "family_relationships": "Relations familiales",
+    "parents": "Parents",
+    "children": "Enfants",
+    "spouse": "Conjoint(e)",
+    "no_bio": "Aucune biographie disponible",
+    "no_facts": "Aucun fait marquant",
+    "no_parents": "Aucun parent",
+    "no_children": "Aucun enfant",
+    "no_spouse": "Aucun conjoint",
+    "no_documents": "Aucun document",
+    "no_timeline": "Aucun événement"
+  },
+  "footer": {
+    "company": {
+      "title": "Entreprise",
+      "about": "À propos",
+      "careers": "Carrières",
+      "press": "Presse"
+    },
+    "resources": {
+      "title": "Ressources",
+      "documentation": "Documentation",
+      "help_center": "Centre d'aide",
+      "privacy": "Confidentialité",
+      "terms": "Conditions"
+    },
+    "contact": {
+      "title": "Contact",
+      "support": "Support",
+      "sales": "Commercial",
+      "community": "Communauté"
+    },
+    "social": {
+      "title": "Réseaux sociaux",
+      "twitter": "Twitter",
+      "github": "GitHub",
+      "linkedin": "LinkedIn"
+    },
+    "copyright": "© 2024 FamilHistory. Tous droits réservés."
+  },
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "share": "Partager",
+    "male": "Homme",
+    "female": "Femme",
+    "other": "Autre",
+    "success": "Succès",
+    "error": "Erreur",
+    "loading": "Chargement..."
+  }
+} 

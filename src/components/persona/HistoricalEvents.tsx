@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, Globe, Flag } from 'lucide-react';
@@ -117,8 +116,8 @@ const mockHistoricalEvents: Record<string, HistoricalEvent[]> = {
 };
 
 interface HistoricalEventsProps {
-  birthYear?: string;
-  deathYear?: string;
+  birthYear?: number;
+  deathYear?: number;
   country?: string;
 }
 
@@ -136,16 +135,16 @@ const getCategoryIcon = (category: string) => {
 };
 
 const HistoricalEvents: React.FC<HistoricalEventsProps> = ({ 
-  birthYear = '1950',
-  deathYear = '',
+  birthYear = 1950,
+  deathYear = 0,
   country = 'France'
 }) => {
   const { t, language } = useLanguage();
   
   // Get events for the country and filter by years
   const events = mockHistoricalEvents[country] || [];
-  const birthYearNum = parseInt(birthYear);
-  const deathYearNum = deathYear ? parseInt(deathYear) : new Date().getFullYear();
+  const birthYearNum = birthYear;
+  const deathYearNum = deathYear || new Date().getFullYear();
   
   const relevantEvents = events.filter(event => {
     const eventYear = parseInt(event.year);
@@ -160,7 +159,7 @@ const HistoricalEvents: React.FC<HistoricalEventsProps> = ({
       <CardHeader>
         <CardTitle className="text-lg flex items-center">
           <Globe className="h-4 w-4 text-white mr-2" /> 
-          {t('historical_events')}
+          {t('common.historical_events')}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -186,7 +185,7 @@ const HistoricalEvents: React.FC<HistoricalEventsProps> = ({
                     <span className="text-white font-semibold mr-2">{event.year}</span>
                     <span className="font-medium">{event.title}</span>
                     <div className="ml-auto text-xs text-gray-400">
-                      {t('age')}: <span className="text-white">{age} {t('years_old')}</span>
+                      {t('common.age')}: <span className="text-white">{age} {t('common.years_old')}</span>
                     </div>
                   </div>
                   <p className="text-sm text-gray-400">{event.description}</p>
@@ -198,13 +197,11 @@ const HistoricalEvents: React.FC<HistoricalEventsProps> = ({
                     <div className={`ml-auto px-2 py-0.5 rounded text-xs ${
                       event.impactLevel === 'high' 
                         ? 'bg-red-500/20 text-red-300' 
-                        : event.impactLevel === 'medium' 
-                          ? 'bg-yellow-500/20 text-yellow-300' 
-                          : 'bg-green-500/20 text-green-300'
+                        : event.impactLevel === 'medium'
+                        ? 'bg-yellow-500/20 text-yellow-300'
+                        : 'bg-blue-500/20 text-blue-300'
                     }`}>
-                      {language === 'fr' 
-                        ? (event.impactLevel === 'high' ? 'Impact élevé' : event.impactLevel === 'medium' ? 'Impact moyen' : 'Impact faible')
-                        : `${event.impactLevel === 'high' ? 'High' : event.impactLevel === 'medium' ? 'Medium' : 'Low'} impact`}
+                      {event.impactLevel}
                     </div>
                   </div>
                 </div>

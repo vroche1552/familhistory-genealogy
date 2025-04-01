@@ -1,25 +1,33 @@
-
-import { useLanguage } from '@/contexts/LanguageContext';
+import React from 'react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Globe } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-const LanguageSwitcher = () => {
-  const { language, setLanguage, t } = useLanguage();
-
-  const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'fr' : 'en');
-  };
+const LanguageSwitcher: React.FC = () => {
+  const { language, setLanguage } = useLanguage();
 
   return (
-    <Button 
-      variant="outline" 
-      size="sm" 
-      className="cyber-button" 
-      onClick={toggleLanguage}
-    >
-      <Globe className="h-4 w-4 mr-2" />
-      {language === 'en' ? 'Français' : 'English'}
-    </Button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <Globe className="h-5 w-5" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setLanguage('fr')}>
+          <span className={language === 'fr' ? 'font-bold' : ''}>Français</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setLanguage('en')}>
+          <span className={language === 'en' ? 'font-bold' : ''}>English</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

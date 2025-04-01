@@ -15,9 +15,13 @@ import {
   User, 
   UserPlus,
   Check, 
-  Brain 
+  Brain,
+  Loader2
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { OCRService } from '@/lib/ocr';
+import { useUploadDocumentMutation, useProcessDocumentMutation } from '@/lib/api';
+import { useToast } from '@/hooks/use-toast';
 
 // Simplified toast implementation
 const useSimpleToast = () => {
@@ -71,16 +75,22 @@ const extractKeyInfo = (text: string): string[] => {
 
 interface FileDropZoneProps {
   onAddToBio: (text: string) => void;
+  personId: string;
 }
 
-const FileDropZone: React.FC<FileDropZoneProps> = ({ onAddToBio }) => {
+const ocrService = new OCRService();
+
+const FileDropZone: React.FC<FileDropZoneProps> = ({ onAddToBio, personId }) => {
   const { t, language } = useLanguage();
-  const { toast } = useSimpleToast();
+  const { toast } = useToast();
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [ocrResults, setOcrResults] = useState<Record<string, string>>({});
   const [keyTakeaways, setKeyTakeaways] = useState<Record<string, string[]>>({});
   const [tagType, setTagType] = useState<'author' | 'receiver'>('author');
+  
+  const [uploadDocument] = useUploadDocumentMutation();
+  const [processDocument] = useProcessDocumentMutation();
   
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(prev => [...prev, ...acceptedFiles]);
@@ -101,7 +111,6 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({ onAddToBio }) => {
     newFiles.splice(index, 1);
     setFiles(newFiles);
     
-    // Also remove OCR results if they exist
     if (ocrResults[fileName]) {
       const newResults = { ...ocrResults };
       delete newResults[fileName];
@@ -119,20 +128,29 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({ onAddToBio }) => {
     setUploading(true);
     
     try {
-      const newResults: Record<string, string> = {};
-      const newTakeaways: Record<string, string[]> = {};
-      
-      // Process each file with OCR
       for (const file of files) {
         if (!ocrResults[file.name]) {
-          const result = await mockOcrAnalysis(file);
-          newResults[file.name] = result;
-          newTakeaways[file.name] = extractKeyInfo(result);
+          // Upload the file
+          const uploadResult = await uploadDocument({ personId, file }).unwrap();
+          
+          // Process the document with OCR
+          const processResult = await processDocument({ 
+            personId, 
+            documentId: uploadResult.id 
+          }).unwrap();
+          
+          // Update local state with OCR results
+          setOcrResults(prev => ({
+            ...prev,
+            [file.name]: processResult.ocrResults?.fullText || ''
+          }));
+          
+          setKeyTakeaways(prev => ({
+            ...prev,
+            [file.name]: processResult.ocrResults?.keyInfo || []
+          }));
         }
       }
-      
-      setOcrResults(prev => ({ ...prev, ...newResults }));
-      setKeyTakeaways(prev => ({ ...prev, ...newTakeaways }));
       
       toast({
         title: language === 'fr' ? 'Analyse OCR terminée' : 'OCR Analysis Complete',
@@ -141,6 +159,7 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({ onAddToBio }) => {
           : 'All files have been successfully analyzed.'
       });
     } catch (error) {
+      console.error('Error processing files:', error);
       toast({
         title: language === 'fr' ? 'Erreur' : 'Error',
         description: language === 'fr'
@@ -245,9 +264,17 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({ onAddToBio }) => {
               onClick={processFiles}
               disabled={uploading || Object.keys(ocrResults).length === files.length}
             >
-              {uploading 
-                ? (language === 'fr' ? 'Analyse en cours...' : 'Analyzing...') 
-                : (language === 'fr' ? 'Analyser les fichiers' : 'Analyze Files')}
+              {uploading ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  {language === 'fr' ? 'Analyse en cours...' : 'Analyzing...'}
+                </>
+              ) : (
+                <>
+                  <Brain className="h-4 w-4 mr-2" />
+                  {language === 'fr' ? 'Analyser les fichiers' : 'Analyze Files'}
+                </>
+              )}
             </Button>
           </div>
         )}
