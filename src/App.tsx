@@ -1,21 +1,40 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from '@/contexts/ThemeContext';
-import { LanguageProvider } from '@/contexts/LanguageContext';
-import { AuthProvider, ProtectedRoute } from '@/contexts/AuthContext';
-import { FamilyProvider } from '@/contexts/FamilyContext';
-import { Toaster } from 'sonner';
-import { Layout } from '@/components/layout/Layout';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from '@/features/theme/context/ThemeContext';
+import { LanguageProvider } from '@/features/i18n/context/LanguageContext';
+import { AuthProvider, ProtectedRoute } from '@/features/auth';
+import { FamilyProvider } from '@/features/family-tree/context/FamilyContext';
+import { Toaster } from '@/shared/components/ui/toaster';
+import { Layout } from '@/shared/components/layout/Layout';
 import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 import Signup from '@/pages/Signup';
 import Dashboard from '@/pages/Dashboard';
 import Tree from '@/pages/Tree';
 import PersonProfile from '@/pages/PersonProfile';
+import FamilyMembers from '@/pages/FamilyMembers';
 import NotFound from '@/pages/NotFound';
+import { testSupabaseConnection } from '@/shared/lib/supabase';
+import { testSupabaseSetup } from '@/shared/lib/supabase.test';
+
+// Test Supabase connection on app start
+testSupabaseConnection().then(success => {
+  if (success) {
+    console.log('Supabase is ready to use!');
+  }
+});
+
+// Test Supabase setup
+testSupabaseSetup().then(success => {
+  if (success) {
+    console.log('Supabase setup verified successfully!');
+  } else {
+    console.error('Supabase setup verification failed. Please check your configuration.');
+  }
+});
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <LanguageProvider>
         <ThemeProvider>
           <AuthProvider>
@@ -34,10 +53,18 @@ function App() {
                     }
                   />
                   <Route
-                    path="/tree"
+                    path="/tree/:treeId"
                     element={
                       <ProtectedRoute>
                         <Tree />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/tree/:treeId/members"
+                    element={
+                      <ProtectedRoute>
+                        <FamilyMembers />
                       </ProtectedRoute>
                     }
                   />
@@ -57,7 +84,7 @@ function App() {
           </AuthProvider>
         </ThemeProvider>
       </LanguageProvider>
-    </BrowserRouter>
+    </Router>
   );
 }
 
