@@ -15,6 +15,10 @@ interface Person {
   treeId: string;
   createdAt: string;
   updatedAt: string;
+  position?: {
+    x: number;
+    y: number;
+  };
 }
 
 interface Relationship {
@@ -53,9 +57,13 @@ interface FamilyContextType {
   createTree: (tree: Omit<FamilyTree, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
   updateTree: (id: string, updates: Partial<FamilyTree>) => Promise<void>;
   deleteTree: (id: string) => Promise<void>;
+  hasRelationships: (personId: string) => boolean;
 }
 
+export type { Person, Relationship, FamilyTree, FamilyContextType };
+
 const FamilyContext = createContext<FamilyContextType | undefined>(undefined);
+export { FamilyContext };
 
 export function FamilyProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
@@ -252,6 +260,10 @@ export function FamilyProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const hasRelationships = (personId: string) => {
+    return relationships.some(rel => rel.person1Id === personId || rel.person2Id === personId);
+  };
+
   const value = {
     currentTree,
     setCurrentTree,
@@ -269,6 +281,7 @@ export function FamilyProvider({ children }: { children: React.ReactNode }) {
     createTree,
     updateTree,
     deleteTree,
+    hasRelationships
   };
 
   return <FamilyContext.Provider value={value}>{children}</FamilyContext.Provider>;

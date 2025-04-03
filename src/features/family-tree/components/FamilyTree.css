@@ -1,0 +1,156 @@
+.family-tree {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: #f5f5f5;
+}
+
+.tree-controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tree-controls button {
+  padding: 8px 16px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tree-controls button:hover {
+  background-color: #f0f0f0;
+}
+
+.layout-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.layout-controls label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.layout-controls select,
+.layout-controls input {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tree-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.node-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spouse-connector {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  position: relative;
+}
+
+.spouse-connector::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  right: -20px;
+  height: 2px;
+  background-color: #ddd;
+  transform: translateY(-50%);
+}
+
+.tree-node {
+  position: relative;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.tree-node:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.node-content {
+  text-align: center;
+}
+
+.node-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.node-dates {
+  font-size: 0.8em;
+  color: #666;
+}
+
+.node-children {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.person-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.person-modal h3 {
+  margin: 0 0 10px 0;
+}
+
+.person-modal p {
+  margin: 5px 0;
+}
+
+.person-modal button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.person-modal button:hover {
+  background-color: #0056b3;
+} 

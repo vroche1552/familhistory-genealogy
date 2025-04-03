@@ -69,4 +69,32 @@ export interface FamilyTree {
   members: Person[];
   relationships: Relationship[];
   metadata: Record<string, any>;
+}
+
+export interface FamilyMember {
+  id: string;
+  firstName: string;
+  lastName: string;
+  birthDate?: string;
+  deathDate?: string;
+  gender?: 'male' | 'female' | 'other';
+  parentIds: string[];
+  spouseIds: string[];
+  occupation?: string;
+  birthPlace?: string;
+  deathPlace?: string;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FamilyContextType {
+  familyMembers: FamilyMember[];
+  loading: boolean;
+  error: string | null;
+  addFamilyMember: (member: Omit<FamilyMember, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+  updateFamilyMember: (id: string, member: Partial<FamilyMember>) => Promise<void>;
+  deleteFamilyMember: (id: string) => Promise<void>;
+  getFamilyMember: (id: string) => FamilyMember | undefined;
+  getFamilyMembers: () => FamilyMember[];
 } 

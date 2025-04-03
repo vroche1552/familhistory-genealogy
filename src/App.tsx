@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@/features/theme/context/ThemeContext';
 import { LanguageProvider } from '@/features/i18n/context/LanguageContext';
@@ -15,6 +16,9 @@ import FamilyMembers from '@/pages/FamilyMembers';
 import NotFound from '@/pages/NotFound';
 import { testSupabaseConnection } from '@/shared/lib/supabase';
 import { testSupabaseSetup } from '@/shared/lib/supabase.test';
+import FamilyTreePage from '@/features/family-tree/pages/FamilyTreePage';
+import FamilyMemberListPage from '@/features/family-tree/pages/FamilyMemberListPage';
+import RelationshipManagerPage from '@/features/family-tree/pages/RelationshipManagerPage';
 
 // Test Supabase connection on app start
 testSupabaseConnection().then(success => {
@@ -32,13 +36,13 @@ testSupabaseSetup().then(success => {
   }
 });
 
-function App() {
+const App: React.FC = () => {
   return (
-    <Router>
+    <ThemeProvider>
       <LanguageProvider>
-        <ThemeProvider>
-          <AuthProvider>
-            <FamilyProvider>
+        <AuthProvider>
+          <FamilyProvider>
+            <Router>
               <Layout>
                 <Routes>
                   <Route path="/" element={<Home />} />
@@ -76,16 +80,40 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
+                  <Route
+                    path="/family-tree"
+                    element={
+                      <ProtectedRoute>
+                        <FamilyTreePage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/family-members"
+                    element={
+                      <ProtectedRoute>
+                        <FamilyMemberListPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/relationships"
+                    element={
+                      <ProtectedRoute>
+                        <RelationshipManagerPage />
+                      </ProtectedRoute>
+                    }
+                  />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Layout>
               <Toaster />
-            </FamilyProvider>
-          </AuthProvider>
-        </ThemeProvider>
+            </Router>
+          </FamilyProvider>
+        </AuthProvider>
       </LanguageProvider>
-    </Router>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
