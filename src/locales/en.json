@@ -1,4 +1,19 @@
 {
+  "dashboard": {
+    "welcome": "Welcome to Your Family History",
+    "description": "Explore and manage your family tree, documents, and memories.",
+    "view_tree": "View Family Tree",
+    "add_member": "Add Family Member",
+    "search": "Search Records",
+    "timeline": "View Timeline",
+    "family_stats": "Family Statistics",
+    "total_members": "Total Members",
+    "total_documents": "Total Documents",
+    "generations": "Generations",
+    "view_family_tree": "View Full Family Tree",
+    "documentation_ranking": "Documentation Ranking",
+    "documents": "documents"
+  },
   "footer": {
     "contact_info": "Contact Information",
     "quick_links": "Quick Links",
@@ -105,5 +120,38 @@
     "noAccount": "Don't have an account?",
     "haveAccount": "Already have an account?",
     "logout": "Log Out"
+  },
+  "landing": {
+    "welcome": "Discover Your Family Story",
+    "subtitle": "Build, explore, and share your family history with our intuitive genealogy tools.",
+    "get_started": "Get Started",
+    "import_gedcom": "Import GEDCOM",
+    "features": "Features",
+    "features_list": {
+      "family_tree": {
+        "title": "Interactive Family Tree",
+        "description": "Create and visualize your family connections with our intuitive tree builder."
+      },
+      "document_management": {
+        "title": "Document Management",
+        "description": "Store and organize family documents, photos, and records securely."
+      },
+      "geographic": {
+        "title": "Geographic Insights",
+        "description": "Map your family's journey across generations and locations."
+      },
+      "timeline": {
+        "title": "Family Timeline",
+        "description": "View important family events in an interactive timeline."
+      },
+      "ai_assistant": {
+        "title": "AI Assistant",
+        "description": "Get help with research and organizing your family history."
+      },
+      "collaboration": {
+        "title": "Family Collaboration",
+        "description": "Work together with family members to build your tree."
+      }
+    }
   }
 } 
